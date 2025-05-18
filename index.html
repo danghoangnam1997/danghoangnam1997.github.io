@@ -1,221 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nam — Data Visualization & Game Lighting</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="cursor"></div>
-  
-  <header>
-    <nav>
-      <a href="#" class="logo">NAM<span class="logo-period">.</span></a>
-      <ul class="nav-links">
-        <li><a href="#work">Work</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact" class="contact-link">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section id="hero">
-      <div class="container">
-        <h1 class="fade-in">Big Data Visualization<br>for Small Business</h1>
-        <p class="subtitle fade-in delay-1">Fortune 500 companies benefit from my visualization solutions. You can, too.</p>
-        <div class="hero-cta fade-in delay-2">
-          <a href="#work" class="btn-primary">View Work</a>
-          <a href="#contact" class="btn-secondary">Get in Touch</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="work">
-      <div class="container">
-        <div class="section-header">
-          <h2>Selected Work</h2>
-        </div>
-        <div class="portfolio-grid">
-          <div class="portfolio-item fade-in">
-            <img src="img/portfolio1.jpg" alt="Data Visualization Project">
-            <div class="portfolio-item-title">Global Energy Consumption</div>
-            <div class="portfolio-item-category">Data Visualization</div>
-          </div>
-          <div class="portfolio-item fade-in delay-1">
-            <img src="img/portfolio2.jpg" alt="Game Lighting Project">
-            <div class="portfolio-item-title">Neon Nightfall</div>
-            <div class="portfolio-item-category">Game Lighting</div>
-          </div>
-          <div class="portfolio-item fade-in">
-            <img src="img/portfolio3.jpg" alt="Data Visualization Project">
-            <div class="portfolio-item-title">Climate Patterns</div>
-            <div class="portfolio-item-category">Data Visualization</div>
-          </div>
-          <div class="portfolio-item fade-in delay-1">
-            <img src="img/portfolio4.jpg" alt="Game Lighting Project">
-            <div class="portfolio-item-title">Forest Shadows</div>
-            <div class="portfolio-item-category">Game Lighting</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="services">
-      <div class="container">
-        <div class="section-header">
-          <h2>Services</h2>
-          <p>Expert visualization for complex challenges</p>
-        </div>
-        
-        <div class="services-grid">
-          <div class="service-item fade-in">
-            <h3>Data Visualization</h3>
-            <p>Transform complex datasets into engaging visual narratives that inform and inspire. Make your data speak volumes with intuitive dashboards and reports.</p>
-          </div>
-          <div class="service-item fade-in delay-1">
-            <h3>Game Lighting</h3>
-            <p>Create atmospheric environments that immerse players in your game world. Enhance mood, guide gameplay, and bring virtual worlds to life.</p>
-          </div>
-          <div class="service-item fade-in delay-2">
-            <h3>Interactive Design</h3>
-            <p>Develop responsive interfaces that engage users. Connect data and design through intuitive interactions that create memorable experiences.</p>
-          </div>
-        </div>
-        
-        <div class="optimized-for">
-          <h3>Optimized for:</h3>
-          <div class="optimized-grid">
-            <div class="optimized-column">
-              <span>Startups</span>
-              <span>Tech Companies</span>
-              <span>Financial Services</span>
-            </div>
-            <div class="optimized-column">
-              <span>Game Studios</span>
-              <span>Research Firms</span>
-              <span>Analytics Teams</span>
-            </div>
-            <div class="optimized-column">
-              <span>Education</span>
-              <span>Healthcare</span>
-              <span>Government</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="testimonials">
-      <div class="container">
-        <div class="section-header">
-          <h2>Raving Reviews</h2>
-          <p>Discover the impact I've made</p>
-        </div>
-        <div class="testimonials-grid">
-          <div class="testimonial fade-in">
-            <p class="testimonial-text">"Nam transformed our complex financial data into beautiful visualizations that our clients could easily understand. His work has dramatically improved our reporting capabilities."</p>
-            <div class="testimonial-author">
-              <span class="name">Alex Chen</span>
-              <span class="position">Director of Analytics, Finance Corp</span>
-            </div>
-          </div>
-          <div class="testimonial fade-in delay-1">
-            <p class="testimonial-text">"The lighting design that Nam created for our game elevated the entire player experience. His attention to detail and understanding of atmosphere is unmatched."</p>
-            <div class="testimonial-author">
-              <span class="name">Sarah Johnson</span>
-              <span class="position">Creative Director, GameWorld Studios</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="about">
-      <div class="container">
-        <div class="section-header">
-          <h2>About</h2>
-        </div>
-        <div class="about-columns">
-          <div class="about-content">
-            <div class="about-image fade-in">
-              <img src="img/profile.jpg" alt="Nam Portrait">
-            </div>
-            <div class="about-text">
-              <h3 class="fade-in">Say goodbye to confusing data presentations & uninspiring game environments.</h3>
-              <p class="fade-in delay-1">I'm Nam, a visual storyteller working at the intersection of data and design. My passion lies in transforming complex datasets into compelling visual narratives that inform and inspire.</p>
-              <p class="fade-in delay-1">With over 7 years of experience in both data visualization and game lighting design, I bring a unique perspective to each project, combining analytical thinking with artistic sensibility.</p>
-              <p class="fade-in delay-2">My approach focuses on creating clear, engaging visuals that communicate effectively while maintaining aesthetic beauty. Whether illuminating game environments or making data accessible, I strive for work that resonates on both intellectual and emotional levels.</p>
-              <p class="fade-in delay-2">Let's bring your vision to life, together.</p>
-            </div>
-          </div>
-          <div class="about-stats">
-            <div class="stat fade-in">
-              <span class="number">25</span>
-              <span class="label">Projects Completed</span>
-            </div>
-            <div class="stat fade-in delay-1">
-              <span class="number">17</span>
-              <span class="label">Happy Clients</span>
-            </div>
-            <div class="stat fade-in delay-2">
-              <span class="number">8</span>
-              <span class="label">Industry Awards</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="container">
-        <div class="section-header">
-          <h2>You Need to Look as Good as Your Data</h2>
-          <p>Boost your business with the same design tools as Fortune 500 companies</p>
-        </div>
-        <div class="contact-columns">
-          <div class="contact-info">
-            <p>Ready to elevate your data visualization or create atmospheric game environments? I'm here to help turn your vision into reality.</p>
-            <p>Fill out the form, and I'll be in touch within 24 hours.</p>
-          </div>
-          <form class="contact-form">
-            <div class="form-group">
-              <input type="text" placeholder="Name" required>
-            </div>
-            <div class="form-group">
-              <input type="email" placeholder="Email" required>
-            </div>
-            <div class="form-group">
-              <textarea placeholder="Tell me about your project" required></textarea>
-            </div>
-            <button type="submit" class="btn-primary">Send Message</button>
-          </form>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
     <div class="container">
-      <div class="footer-content">
-        <a href="#" class="logo footer-logo">NAM<span class="logo-period">.</span></a>
-        <div class="social">
-          <a href="#" aria-label="LinkedIn">LinkedIn</a>
-          <a href="#" aria-label="Twitter">Twitter</a>
-          <a href="#" aria-label="Instagram">Instagram</a>
+        <h1>Chess Game</h1>
+        
+        <div class="game-container">
+            <div id="board" class="board"></div>
+            
+            <div class="game-info">
+                <div id="status" class="status">White to move</div>
+                <div id="fen" class="fen"></div>
+                <div id="pgn" class="pgn"></div>
+                
+                <div class="controls">
+                    <button id="newGameBtn">New Game</button>
+                    <button id="undoBtn">Undo Move</button>
+                    <div class="difficulty">
+                        <label for="difficulty">Difficulty:</label>
+                        <select id="difficulty">
+                            <option value="1">Easy</option>
+                            <option value="2" selected>Medium</option>
+                            <option value="3">Hard</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="copyright">
-          © 2025 Dang Hoang Nam. All rights reserved.
-        </div>
-      </div>
     </div>
-  </footer>
 
-  <script src="js/main.js"></script>
+    <footer>
+        <p>Created by <a href="https://github.com/danghoangnam1997" target="_blank">Dang Hoang Nam</a></p>
+    </footer>
+
+    <!-- Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    
+    <!-- Custom scripts -->
+    <script src="js/engine.js"></script>
+    <script src="js/app.js"></script>
 </body>
-</html>
+</html> 

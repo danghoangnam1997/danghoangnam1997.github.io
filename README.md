@@ -1,62 +1,51 @@
-# Nam's Portfolio
+# Chess Game
 
-A minimalist portfolio website for Dang Hoang Nam, showcasing his work in data visualization and game lighting artistry.
+A simple 2D chess game where you can play against a computer opponent. The game is implemented using HTML, CSS, and JavaScript.
+
+![Chess Game Screenshot](screenshot.png)
+
+## Play Online
+
+You can play the game directly at [https://danghoangnam1997.github.io/](https://danghoangnam1997.github.io/)
 
 ## Features
 
-- Clean, responsive design
-- Portfolio showcase
-- About section with stats
-- Contact form
-- Smooth scrolling
-- Minimalist aesthetic
+- Play chess against a computer opponent
+- Simple 2D graphics
+- Legal move validation
+- Castling, en passant, and promotion support
+- Move highlighting
+- Game state display (check, checkmate, stalemate)
+- Move history
 
-## File Structure
+## How to Play
 
-```
-├── index.html          # Main HTML file
-├── css/
-│   └── style.css       # Main stylesheet
-├── js/
-│   └── main.js         # JavaScript functionality
-└── img/                # Directory for portfolio images
-    ├── portfolio1.jpg
-    ├── portfolio2.jpg
-    ├── portfolio3.jpg
-    └── portfolio4.jpg
-```
+1. Visit the game URL
+2. You play as white and the computer plays as black
+3. Click on a piece to select it
+4. Click on a valid square to move the selected piece
+5. The computer will automatically make its move
 
-## Getting Started
+## Technologies Used
 
-1. Replace the placeholder images in the `img` directory with your own portfolio images
-2. Update the content in `index.html` to match your personal information
-3. Customize the styles in `css/style.css` if desired
-4. Deploy to your preferred web hosting service
+- HTML5
+- CSS3
+- JavaScript
+- Chess.js (for chess logic)
+- Chessboard.js (for board rendering)
 
-## Customization
+## Development
 
-### Colors
+If you want to run this project locally:
 
-The main color scheme can be modified in the CSS file:
-
-- Primary text color: `#333`
-- Background color: `#fff`
-- Secondary background color: `#f8f8f8`
-- Button color: `#333`
-
-### Images
-
-Replace the placeholder images in the `img` directory with your own portfolio images. Recommended size is at least 600px wide with the same aspect ratio for consistency.
-
-## Browser Support
-
-This portfolio is designed to work with all modern browsers including:
-
-- Chrome
-- Firefox
-- Safari
-- Edge
+1. Clone the repository
+2. Open `index.html` in your browser
 
 ## License
 
-This project is available for personal and commercial use. 
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- [Chess.js](https://github.com/jhlywa/chess.js) for chess logic
+- [Chessboard.js](https://chessboardjs.com/) for the chessboard UI 
