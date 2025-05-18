@@ -17,6 +17,11 @@ You can play the game directly at [https://danghoangnam1997.github.io/](https://
 - Move highlighting
 - Game state display (check, checkmate, stalemate)
 - Move history
+- Hit Points (HP) System:
+  - Pawns and Kings: 1 HP
+  - Knights, Bishops, and Rooks: 2 HP
+  - Queens: 3 HP
+  - Pieces lose 1 HP when captured, only fully captured when HP reaches 0
 
 ## How to Play
 
