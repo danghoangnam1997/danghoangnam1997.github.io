@@ -2,7 +2,7 @@
 
 A simple 2D chess game where you can play against a computer opponent. The game is implemented using HTML, CSS, and JavaScript.
 
-![Chess Game Screenshot](screenshot.png)
+![Chess Game Screenshot](https://chessboardjs.com/img/chessboard-1.0.0.png)
 
 ## Play Online
 

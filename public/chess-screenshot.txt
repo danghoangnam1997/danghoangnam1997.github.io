@@ -1,0 +1,3 @@
+Replace this file with an actual screenshot of your chess game. 
+The screenshot should show the game board with pieces in their starting positions, 
+along with the game interface. 

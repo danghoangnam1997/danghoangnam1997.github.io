@@ -19,6 +19,7 @@ function initGame() {
     const config = {
         draggable: true,
         position: 'start',
+        pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png',
         onDragStart: onDragStart,
         onDrop: onDrop,
         onMouseoutSquare: onMouseoutSquare,
