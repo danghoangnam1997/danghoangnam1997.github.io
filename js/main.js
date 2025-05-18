@@ -1,9 +1,35 @@
 // Main JavaScript for Nam's portfolio website
 document.addEventListener('DOMContentLoaded', function() {
-  // Smooth scrolling for navigation links
-  const links = document.querySelectorAll('nav a');
+  // Custom cursor
+  const cursor = document.querySelector('.cursor');
+  const links = document.querySelectorAll('a, button');
   
-  for (const link of links) {
+  document.addEventListener('mousemove', function(e) {
+    cursor.style.opacity = '1';
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  
+  links.forEach(link => {
+    link.addEventListener('mouseenter', function() {
+      cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+      cursor.style.mixBlendMode = 'difference';
+    });
+    
+    link.addEventListener('mouseleave', function() {
+      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      cursor.style.mixBlendMode = 'difference';
+    });
+  });
+  
+  document.addEventListener('mouseleave', function() {
+    cursor.style.opacity = '0';
+  });
+  
+  // Smooth scrolling for navigation links
+  const navLinks = document.querySelectorAll('.nav-links a, .hero-cta a');
+  
+  for (const link of navLinks) {
     link.addEventListener('click', smoothScroll);
   }
   
@@ -25,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Scroll indicator for current section
   const sections = document.querySelectorAll('section');
-  const navItems = document.querySelectorAll('nav ul li a');
+  const navItems = document.querySelectorAll('.nav-links li a');
   
   function updateActiveSection() {
     let currentSectionId = '';
@@ -71,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const elementTop = el.getBoundingClientRect().top;
       const windowHeight = window.innerHeight;
       
-      if (elementTop < windowHeight - 50) {
+      if (elementTop < windowHeight - 70) {
         el.style.opacity = '1';
         el.style.transform = 'translateY(0)';
       }
@@ -99,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const elementTop = item.getBoundingClientRect().top;
       const windowHeight = window.innerHeight;
       
-      if (elementTop < windowHeight - 50) {
+      if (elementTop < windowHeight - 70) {
         // Apply staggered animation
         setTimeout(() => {
           item.style.opacity = '1';
@@ -109,7 +135,25 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Basic form validation
+  // Text highlight effect for About section
+  const aboutText = document.querySelector('.about-text h3');
+  if (aboutText) {
+    const words = aboutText.textContent.split(' ');
+    let highlightedText = '';
+    
+    words.forEach((word, index) => {
+      if (word.includes('&')) {
+        const parts = word.split('&');
+        highlightedText += `${parts[0]}<span class="highlight">&</span>${parts[1]} `;
+      } else {
+        highlightedText += `${word} `;
+      }
+    });
+    
+    aboutText.innerHTML = highlightedText;
+  }
+  
+  // Basic form validation with enhanced UX
   const form = document.querySelector('form');
   
   if (form) {
@@ -143,12 +187,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Simulate sending (would be an actual fetch/ajax call)
         setTimeout(() => {
           submitButton.textContent = 'Message Sent!';
+          submitButton.style.backgroundColor = '#4353FF';
+          submitButton.style.borderColor = '#4353FF';
           
           // Reset form and button after delay
           setTimeout(() => {
             form.reset();
             submitButton.textContent = originalText;
             submitButton.disabled = false;
+            submitButton.style.backgroundColor = '';
+            submitButton.style.borderColor = '';
           }, 2000);
         }, 1500);
       } else {
@@ -177,6 +225,19 @@ document.addEventListener('DOMContentLoaded', function() {
       input.addEventListener('input', function() {
         if (this.value.trim()) {
           this.classList.remove('error');
+          this.style.borderColor = '#111';
+        }
+      });
+      
+      // Focus/Blur effects
+      input.addEventListener('focus', function() {
+        this.style.borderColor = '#4353FF';
+      });
+      
+      input.addEventListener('blur', function() {
+        if (!this.value.trim()) {
+          this.style.borderColor = '#ddd';
+        } else {
           this.style.borderColor = '#111';
         }
       });
