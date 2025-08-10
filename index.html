@@ -1,7 +1,83 @@
+<link
+  href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+  rel="stylesheet"
+/>
+
 <!DOCTYPE html>
-<html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-</body>
+<html lang="en" class="bg-gray-900 text-white">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Portfolio</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        background-attachment: fixed;
+      }
+    </style>
+  </head>
+  <body class="font-sans">
+    <!-- Navbar -->
+    <nav class="flex justify-between p-6 bg-opacity-20 backdrop-blur-md">
+      <h1 class="text-2xl font-bold">Your Name</h1>
+      <div class="space-x-6">
+        <a href="#art" class="hover:text-cyan-400">Art</a>
+        <a href="#dataviz" class="hover:text-cyan-400">Data Viz</a>
+        <a href="#blog" class="hover:text-cyan-400">Blog</a>
+        <a href="#projects" class="hover:text-cyan-400">Projects</a>
+        <a href="#contact" class="hover:text-cyan-400">Contact</a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="h-screen flex flex-col justify-center items-center text-center">
+      <h2 class="text-5xl font-extrabold mb-4">Lighting Artist & Data Viz Enthusiast</h2>
+      <p class="text-lg text-gray-300 max-w-xl">
+        Creating immersive lighting art and insightful data visualizations.
+      </p>
+    </section>
+
+    <!-- Sections -->
+    <section id="art" class="p-10">
+      <h3 class="text-3xl font-bold mb-6">Lighting Art Projects</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Project cards here -->
+      </div>
+    </section>
+
+    <section id="dataviz" class="p-10 bg-gray-800 bg-opacity-50">
+      <h3 class="text-3xl font-bold mb-6">Data Visualization Projects</h3>
+      <!-- Data viz showcase -->
+    </section>
+
+    <section id="blog" class="p-10">
+      <h3 class="text-3xl font-bold mb-6">Blog</h3>
+      <!-- Blog posts -->
+    </section>
+
+    <section id="projects" class="p-10 bg-gray-800 bg-opacity-50">
+      <h3 class="text-3xl font-bold mb-6">Other Projects</h3>
+      <!-- Other works -->
+    </section>
+
+    <section id="contact" class="p-10">
+      <h3 class="text-3xl font-bold mb-6">Contact</h3>
+      <p>Email: <a href="mailto:you@example.com" class="text-cyan-400">you@example.com</a></p>
+    </section>
+
+    <footer class="p-6 text-center text-gray-500">
+      © 2025 Your Name. All rights reserved.
+    </footer>
+  </body>
 </html>
+
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+
