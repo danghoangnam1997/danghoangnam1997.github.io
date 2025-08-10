@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About — Dang Hoang Nam</title>
+    <link rel="stylesheet" href="/css/theme.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/animations.css" />
+    <link rel="stylesheet" href="/css/responsive.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header__row">
+        <a class="brand" href="/">DN</a>
+        <nav class="nav">
+          <ul>
+            <li><a href="/portfolio.html">Portfolio</a></li>
+            <li><a href="/blog.html">Blog</a></li>
+            <li><a href="/about.html" class="is-active">About</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="section section--pad">
+        <div class="container">
+          <h1 data-reveal="up">About Me</h1>
+          <p data-reveal="up" data-delay="0.1">
+            I’m Dang Hoang Nam, a game lighting artist passionate about creating
+            cinematic and immersive worlds.
+          </p>
+
+          <h2 data-reveal="up">Skills & Tools</h2>
+          <ul class="list badges" data-reveal="up" data-delay="0.2">
+            <li class="badge">Unreal Engine</li>
+            <li class="badge">Unity</li>
+            <li class="badge">Blender</li>
+            <li class="badge">Substance</li>
+            <li class="badge">Nuke</li>
+          </ul>
+
+          <h2 id="contact" data-reveal="up">Contact</h2>
+          <form class="form" action="mailto:danghoangnam1997@gmail.com">
+            <label>
+              Name
+              <input type="text" name="name" required />
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" required />
+            </label>
+            <label>
+              Message
+              <textarea name="message" rows="5" required></textarea>
+            </label>
+            <button type="submit" class="btn btn--primary">Send</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <small>© <span id="year"></span> Dang Hoang Nam</small>
+      </div>
+    </footer>
+
+    <script defer src="/js/animations.js"></script>
+    <script defer src="/js/main.js"></script>
+  </body>
+</html>
