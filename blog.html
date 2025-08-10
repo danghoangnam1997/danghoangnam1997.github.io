@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-900 text-white">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog | Your Name</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+    <style>
+      body {
+        font-family: "Orbitron", sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        background-attachment: fixed;
+      }
+      .neon-text {
+        text-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+      }
+    </style>
+  </head>
+  <body class="p-10 text-white">
+    <h1 class="text-4xl font-bold mb-6 neon-text">Blog</h1>
+    <div id="blog-container" class="space-y-10"></div>
+
+    <script>
+      const posts = ["post1.md", "post2.md"];
+      const converter = new showdown.Converter();
+
+      posts.forEach((post) => {
+        fetch(`blog/${post}`)
+          .then((res) => res.text())
+          .then((md) => {
+            const html = converter.makeHtml(md);
+            const div = document.createElement("div");
+            div.classList.add("card");
+            div.innerHTML = html;
+            document.getElementById("blog-container").appendChild(div);
+          });
+      });
+    </script>
+  </body>
+</html>
