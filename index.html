@@ -25,15 +25,18 @@
 
     <!-- Google Fonts -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
 
     <style>
       body {
-        font-family: "Orbitron", sans-serif;
+        font-family: "Inter", sans-serif;
         background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
         background-attachment: fixed;
+      }
+      h1, h2, h3 {
+        font-family: "Orbitron", sans-serif;
       }
       .neon-text {
         text-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff, 0 0 20px #00f0ff;
@@ -41,20 +44,49 @@
       .card {
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
+        border-radius: 15px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        backdrop-filter: blur(10px);
       }
       .card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
       }
       #particles-js {
-        position: absolute;
+        position: fixed;
         width: 100%;
         height: 100%;
         z-index: -1;
         top: 0;
         left: 0;
+      }
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: #00f0ff;
+        transition: width 0.3s ease;
+      }
+      .nav-link:hover::after {
+        width: 100%;
+      }
+      .mobile-menu {
+        display: none;
+      }
+      @media (max-width: 768px) {
+        .desktop-menu {
+          display: none;
+        }
+        .mobile-menu {
+          display: block;
+        }
       }
     </style>
   </head>
@@ -63,172 +95,317 @@
     <div id="particles-js"></div>
 
     <!-- Navbar -->
-    <nav
-      class="flex justify-between items-center p-6 bg-black bg-opacity-30 backdrop-blur-md fixed w-full z-50"
-    >
+    <nav class="flex justify-between items-center p-6 bg-black bg-opacity-30 backdrop-blur-md fixed w-full z-50">
       <h1 class="text-2xl font-bold neon-text">Your Name</h1>
-      <div class="space-x-6">
-        <a href="#art" class="hover:text-cyan-400">Art</a>
-        <a href="#dataviz" class="hover:text-cyan-400">Data Viz</a>
-        <a href="blog.html" class="hover:text-cyan-400">Blog</a>
-        <a href="#projects" class="hover:text-cyan-400">Projects</a>
-        <a href="#contact" class="hover:text-cyan-400">Contact</a>
+      <div class="desktop-menu space-x-8">
+        <a href="#home" class="nav-link hover:text-cyan-400">Home</a>
+        <a href="#art" class="nav-link hover:text-cyan-400">Art</a>
+        <a href="#dataviz" class="nav-link hover:text-cyan-400">Data Viz</a>
+        <a href="#blog" class="nav-link hover:text-cyan-400">Blog</a>
+        <a href="#projects" class="nav-link hover:text-cyan-400">Projects</a>
+        <a href="#contact" class="nav-link hover:text-cyan-400">Contact</a>
+      </div>
+      <div class="mobile-menu">
+        <button id="mobile-toggle" class="text-2xl">☰</button>
       </div>
     </nav>
 
+    <!-- Mobile Menu -->
+    <div id="mobile-nav" class="hidden fixed top-16 left-0 w-full bg-black bg-opacity-90 backdrop-blur-md z-40 p-6">
+      <div class="flex flex-col space-y-4">
+        <a href="#home" class="nav-link hover:text-cyan-400">Home</a>
+        <a href="#art" class="nav-link hover:text-cyan-400">Art</a>
+        <a href="#dataviz" class="nav-link hover:text-cyan-400">Data Viz</a>
+        <a href="#blog" class="nav-link hover:text-cyan-400">Blog</a>
+        <a href="#projects" class="nav-link hover:text-cyan-400">Projects</a>
+        <a href="#contact" class="nav-link hover:text-cyan-400">Contact</a>
+      </div>
+    </div>
+
     <!-- Hero Section -->
-    <section
-      class="h-screen flex flex-col justify-center items-center text-center px-4 relative"
-    >
-      <h2
-        class="text-5xl md:text-6xl font-extrabold mb-4 neon-text"
-        data-aos="fade-up"
-      >
+    <section id="home" class="h-screen flex flex-col justify-center items-center text-center px-4 relative">
+      <h2 class="text-5xl md:text-7xl font-extrabold mb-6 neon-text" data-aos="fade-up">
         Lighting Artist & Data Viz Enthusiast
       </h2>
-      <p
-        class="text-lg text-gray-300 max-w-xl"
-        data-aos="fade-up"
-        data-aos-delay="200"
-      >
-        Creating immersive lighting art and insightful data visualizations with
-        a passion for storytelling.
+      <p class="text-lg md:text-xl text-gray-300 max-w-2xl mb-8" data-aos="fade-up" data-aos-delay="200">
+        Creating immersive lighting art and insightful data visualizations with a passion for storytelling.
       </p>
+      <div class="flex space-x-4" data-aos="fade-up" data-aos-delay="400">
+        <a href="#art" class="bg-cyan-500 hover:bg-cyan-600 px-6 py-3 rounded-full transition-colors">
+          View My Art
+        </a>
+        <a href="#contact" class="border border-cyan-500 hover:bg-cyan-500 px-6 py-3 rounded-full transition-colors">
+          Get In Touch
+        </a>
+      </div>
     </section>
 
     <!-- Lighting Art Section -->
-    <section id="art" class="p-10" data-aos="fade-up">
-      <h3 class="text-3xl font-bold mb-6 neon-text">Lighting Art Projects</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <a
-          href="https://via.placeholder.com/1200x800"
-          data-lightbox="art"
-          data-title="Project 1"
-        >
-          <img
-            src="https://via.placeholder.com/400x250"
-            class="rounded card"
-          />
-        </a>
-        <a
-          href="https://via.placeholder.com/1200x800"
-          data-lightbox="art"
-          data-title="Project 2"
-        >
-          <img
-            src="https://via.placeholder.com/400x250"
-            class="rounded card"
-          />
-        </a>
-        <a
-          href="https://via.placeholder.com/1200x800"
-          data-lightbox="art"
-          data-title="Project 3"
-        >
-          <img
-            src="https://via.placeholder.com/400x250"
-            class="rounded card"
-          />
-        </a>
+    <section id="art" class="py-20 px-6 md:px-10" data-aos="fade-up">
+      <h3 class="text-4xl font-bold mb-12 text-center neon-text">Lighting Art Projects</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="card overflow-hidden">
+          <a href="https://via.placeholder.com/1200x800/1a1a1a/00f0ff?text=Project+1" data-lightbox="art" data-title="Neon Dreams - LED Installation">
+            <img src="https://via.placeholder.com/400x300/1a1a1a/00f0ff?text=Neon+Dreams" class="w-full h-48 object-cover" />
+          </a>
+          <div class="p-6">
+            <h4 class="text-xl font-semibold mb-2">Neon Dreams</h4>
+            <p class="text-gray-400 text-sm">Interactive LED installation exploring urban landscapes</p>
+          </div>
+        </div>
+        
+        <div class="card overflow-hidden">
+          <a href="https://via.placeholder.com/1200x800/2a1a2a/ff00f0?text=Project+2" data-lightbox="art" data-title="Lumina Flow - Dynamic Light Sculpture">
+            <img src="https://via.placeholder.com/400x300/2a1a2a/ff00f0?text=Lumina+Flow" class="w-full h-48 object-cover" />
+          </a>
+          <div class="p-6">
+            <h4 class="text-xl font-semibold mb-2">Lumina Flow</h4>
+            <p class="text-gray-400 text-sm">Dynamic light sculpture responding to ambient sound</p>
+          </div>
+        </div>
+        
+        <div class="card overflow-hidden">
+          <a href="https://via.placeholder.com/1200x800/1a2a1a/00ff00?text=Project+3" data-lightbox="art" data-title="Spectrum Wave - Immersive Environment">
+            <img src="https://via.placeholder.com/400x300/1a2a1a/00ff00?text=Spectrum+Wave" class="w-full h-48 object-cover" />
+          </a>
+          <div class="p-6">
+            <h4 class="text-xl font-semibold mb-2">Spectrum Wave</h4>
+            <p class="text-gray-400 text-sm">Immersive environment with color-shifting panels</p>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- Data Viz Section -->
-    <section
-      id="dataviz"
-      class="p-10 bg-gray-800 bg-opacity-50"
-      data-aos="fade-up"
-    >
-      <h3 class="text-3xl font-bold mb-6 neon-text">
-        Data Visualization Projects
-      </h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="card p-4">
-          <iframe
-            src="https://public.tableau.com/views/SampleDashboard"
-            class="w-full h-64 rounded"
-          ></iframe>
-          <h4 class="text-xl font-semibold mt-4">Dashboard Title</h4>
+    <section id="dataviz" class="py-20 px-6 md:px-10 bg-gray-800 bg-opacity-30" data-aos="fade-up">
+      <h3 class="text-4xl font-bold mb-12 text-center neon-text">Data Visualization Projects</h3>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="card p-6">
+          <div class="bg-gray-700 h-64 rounded mb-4 flex items-center justify-center">
+            <span class="text-gray-400">Interactive Dashboard Embed</span>
+          </div>
+          <h4 class="text-xl font-semibold mb-2">Urban Light Patterns</h4>
+          <p class="text-gray-400 text-sm">Analysis of city lighting data across different neighborhoods</p>
         </div>
-        <div class="card p-4">
-          <img
-            src="https://via.placeholder.com/500x300"
-            alt="Data Viz"
-            class="rounded"
-          />
-          <h4 class="text-xl font-semibold mt-4">Visualization Title</h4>
+        
+        <div class="card p-6">
+          <div class="bg-gray-700 h-64 rounded mb-4 flex items-center justify-center">
+            <span class="text-gray-400">D3.js Visualization</span>
+          </div>
+          <h4 class="text-xl font-semibold mb-2">Energy Consumption Flow</h4>
+          <p class="text-gray-400 text-sm">Interactive flow diagram of energy usage patterns</p>
         </div>
       </div>
     </section>
 
+    <!-- Blog Section -->
+    <section id="blog" class="py-20 px-6 md:px-10" data-aos="fade-up">
+      <h3 class="text-4xl font-bold mb-12 text-center neon-text">Blog</h3>
+      <div class="max-w-4xl mx-auto space-y-6">
+        <article class="card p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h4 class="text-xl font-semibold">The Art of Dynamic Lighting</h4>
+            <span class="text-sm text-gray-400">Aug 10, 2025</span>
+          </div>
+          <p class="text-gray-300 mb-4">Exploring how dynamic lighting can transform spaces and create emotional connections with viewers...</p>
+          <button onclick="showPost('post1')" class="text-cyan-400 hover:underline">Read more →</button>
+        </article>
+        
+        <article class="card p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h4 class="text-xl font-semibold">Visualizing Data with Light</h4>
+            <span class="text-sm text-gray-400">Aug 5, 2025</span>
+          </div>
+          <p class="text-gray-300 mb-4">How I combine my passion for lighting design with data visualization to create meaningful installations...</p>
+          <button onclick="showPost('post2')" class="text-cyan-400 hover:underline">Read more →</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- Blog Post Modal -->
+    <div id="blog-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
+      <div class="card max-w-4xl max-h-96 overflow-y-auto p-8">
+        <button onclick="closePost()" class="float-right text-2xl text-gray-400 hover:text-white">&times;</button>
+        <div id="blog-content"></div>
+      </div>
+    </div>
+
     <!-- Other Projects -->
-    <section
-      id="projects"
-      class="p-10 bg-gray-800 bg-opacity-50"
-      data-aos="fade-up"
-    >
-      <h3 class="text-3xl font-bold mb-6 neon-text">Other Projects</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="card p-4">
-          <h4 class="text-xl font-semibold">Project Name</h4>
-          <p class="text-gray-400 text-sm">
-            Description of the project and its purpose.
-          </p>
+    <section id="projects" class="py-20 px-6 md:px-10 bg-gray-800 bg-opacity-30" data-aos="fade-up">
+      <h3 class="text-4xl font-bold mb-12 text-center neon-text">Other Projects</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="card p-6">
+          <h4 class="text-xl font-semibold mb-3">Arduino Light Controller</h4>
+          <p class="text-gray-400 text-sm mb-4">Custom hardware solution for controlling LED installations</p>
+          <div class="flex space-x-2">
+            <span class="bg-cyan-500 text-xs px-2 py-1 rounded">Arduino</span>
+            <span class="bg-cyan-500 text-xs px-2 py-1 rounded">C++</span>
+          </div>
         </div>
-        <div class="card p-4">
-          <h4 class="text-xl font-semibold">Project Name</h4>
-          <p class="text-gray-400 text-sm">
-            Description of the project and its purpose.
-          </p>
+        
+        <div class="card p-6">
+          <h4 class="text-xl font-semibold mb-3">React Dashboard</h4>
+          <p class="text-gray-400 text-sm mb-4">Real-time monitoring system for lighting installations</p>
+          <div class="flex space-x-2">
+            <span class="bg-cyan-500 text-xs px-2 py-1 rounded">React</span>
+            <span class="bg-cyan-500 text-xs px-2 py-1 rounded">JavaScript</span>
+          </div>
         </div>
-        <div class="card p-4">
-          <h4 class="text-xl font-semibold">Project Name</h4>
-          <p class="text-gray-400 text-sm">
-            Description of the project and its purpose.
-          </p>
+        
+        <div class="card p-6">
+          <h4 class="text-xl font-semibold mb-3">Python Data Pipeline</h4>
+          <p class="text-gray-400 text-sm mb-4">Automated data collection and processing for viz projects</p>
+          <div class="flex space-x-2">
+            <span class="bg-cyan-500 text-xs px-2 py-1 rounded">Python</span>
+            <span class="bg-cyan-500 text-xs px-2 py-1 rounded">Pandas</span>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="p-10" data-aos="fade-up">
-      <h3 class="text-3xl font-bold mb-6 neon-text">Contact</h3>
-      <p>
-        Email:
-        <a href="mailto:you@example.com" class="text-cyan-400"
-          >you@example.com</a
-        >
-      </p>
+    <section id="contact" class="py-20 px-6 md:px-10" data-aos="fade-up">
+      <h3 class="text-4xl font-bold mb-12 text-center neon-text">Contact</h3>
+      <div class="max-w-2xl mx-auto text-center">
+        <p class="text-lg mb-8">Let's collaborate on your next lighting or data visualization project</p>
+        <div class="space-y-4">
+          <p>Email: <a href="mailto:you@example.com" class="text-cyan-400 hover:underline">you@example.com</a></p>
+          <p>LinkedIn: <a href="https://linkedin.com/in/yourname" class="text-cyan-400 hover:underline">@yourname</a></p>
+          <p>GitHub: <a href="https://github.com/yourname" class="text-cyan-400 hover:underline">@yourname</a></p>
+        </div>
+      </div>
     </section>
 
     <!-- Footer -->
-    <footer class="p-6 text-center text-gray-500">
+    <footer class="py-8 px-6 text-center text-gray-500 bg-black bg-opacity-50">
       © 2025 Your Name. All rights reserved.
     </footer>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-      AOS.init();
-    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
     <script>
+      // Initialize AOS
+      AOS.init({
+        duration: 1000,
+        easing: 'ease-in-out',
+        once: true
+      });
+
+      // Mobile menu toggle
+      document.getElementById('mobile-toggle').addEventListener('click', function() {
+        const mobileNav = document.getElementById('mobile-nav');
+        mobileNav.classList.toggle('hidden');
+      });
+
+      // Blog post content
+      const blogPosts = {
+        post1: {
+          title: "The Art of Dynamic Lighting",
+          date: "August 10, 2025",
+          content: `
+            <h2>The Art of Dynamic Lighting</h2>
+            <p class="text-gray-400 mb-6">August 10, 2025</p>
+            
+            <p class="mb-4">Lighting design has evolved far beyond simple illumination. In today's world, dynamic lighting serves as a powerful medium for storytelling, emotional connection, and spatial transformation.</p>
+            
+            <h3 class="text-xl font-semibold mb-3 mt-6">The Psychology of Light</h3>
+            <p class="mb-4">Our perception of space is fundamentally altered by the quality, color, and movement of light. Through my installations, I explore how these elements can:</p>
+            
+            <ul class="list-disc list-inside mb-4 space-y-2">
+              <li>Create immersive environments that respond to human presence</li>
+              <li>Evoke specific emotional responses through color temperature shifts</li>
+              <li>Transform architectural spaces into dynamic canvases</li>
+            </ul>
+            
+            <h3 class="text-xl font-semibold mb-3 mt-6">Technology Meets Art</h3>
+            <p class="mb-4">The integration of sensors, microcontrollers, and LED technology opens infinite possibilities for interactive installations. My recent work with Arduino-controlled RGB arrays has allowed me to create lighting that responds to ambient sound, motion, and even data feeds.</p>
+            
+            <p>This intersection of technology and artistry continues to push the boundaries of what lighting design can achieve in contemporary art.</p>
+          `
+        },
+        post2: {
+          title: "Visualizing Data with Light",
+          date: "August 5, 2025",
+          content: `
+            <h2>Visualizing Data with Light</h2>
+            <p class="text-gray-400 mb-6">August 5, 2025</p>
+            
+            <p class="mb-4">The marriage of data visualization and physical lighting installations creates a unique opportunity to make abstract information tangible and emotionally resonant.</p>
+            
+            <h3 class="text-xl font-semibold mb-3 mt-6">Making Data Physical</h3>
+            <p class="mb-4">Traditional data visualization relies on screens and static graphics. By translating data into light patterns, colors, and movements, we can create installations that people experience with their entire bodies.</p>
+            
+            <h3 class="text-xl font-semibold mb-3 mt-6">Recent Projects</h3>
+            <p class="mb-4">My latest installation, "Urban Pulse," translates real-time city traffic data into flowing light patterns across a 20-foot LED wall. Viewers can literally see the rhythm of the city breathing through light.</p>
+            
+            <p class="mb-4">Key techniques I use:</p>
+            
+            <ul class="list-disc list-inside mb-4 space-y-2">
+              <li>Mapping numerical data to color temperature and intensity</li>
+              <li>Using position and movement to represent temporal changes</li>
+              <li>Creating interactive zones where viewers become part of the data</li>
+            </ul>
+            
+            <p>This approach transforms data from something we read into something we feel and experience collectively.</p>
+          `
+        }
+      };
+
+      // Blog post functions
+      function showPost(postId) {
+        const modal = document.getElementById('blog-modal');
+        const content = document.getElementById('blog-content');
+        content.innerHTML = blogPosts[postId].content;
+        modal.classList.remove('hidden');
+      }
+
+      function closePost() {
+        document.getElementById('blog-modal').classList.add('hidden');
+      }
+
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+            // Close mobile menu if open
+            document.getElementById('mobile-nav').classList.add('hidden');
+          }
+        });
+      });
+
+      // Initialize particles
       particlesJS("particles-js", {
         particles: {
-          number: { value: 80, density: { enable: true, value_area: 800 } },
+          number: { value: 60, density: { enable: true, value_area: 800 } },
           color: { value: "#00f0ff" },
           shape: { type: "circle" },
-          opacity: { value: 0.5 },
-          size: { value: 3 },
+          opacity: { value: 0.4, random: true },
+          size: { value: 3, random: true },
           line_linked: {
             enable: true,
             distance: 150,
             color: "#00f0ff",
-            opacity: 0.4,
+            opacity: 0.2,
             width: 1
           },
-          move: { enable: true, speed: 2 }
+          move: { 
+            enable: true, 
+            speed: 1.5,
+            direction: "none",
+            random: true,
+            straight: false,
+            out_mode: "bounce",
+            bounce: false
+          }
         },
         interactivity: {
           detect_on: "canvas",
@@ -237,7 +414,7 @@
             onclick: { enable: true, mode: "push" }
           },
           modes: {
-            grab: { distance: 140, line_linked: { opacity: 1 } },
+            grab: { distance: 140, line_linked: { opacity: 0.8 } },
             push: { particles_nb: 4 }
           }
         },
