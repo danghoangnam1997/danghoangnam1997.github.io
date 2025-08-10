@@ -1,425 +1,440 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-gray-900 text-white">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your Name | Portfolio</title>
-
-    <!-- Tailwind CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
+    <title>Your Studio | Visual Stories</title>
 
-    <!-- AOS Animation -->
+    <!-- Tailwind (Play CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Showdown only needed on blog.html, not here -->
     <link
-      href="https://unpkg.com/aos@2.3.1/dist/aos.css"
-      rel="stylesheet"
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+      crossorigin
     />
-
-    <!-- Lightbox2 -->
     <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css"
-      rel="stylesheet"
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
     />
-
-    <!-- Google Fonts -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
       rel="stylesheet"
     />
 
     <style>
+      :root {
+        --bg0: #0d0d0d;
+        --bg1: #131313;
+        --bg2: #1a1a1a;
+        --text: #f5f5f5;
+        --muted: #b9b9b9;
+        --line: rgba(255, 255, 255, 0.12);
+        --card: rgba(255, 255, 255, 0.04);
+        --accent: #ff6600;
+      }
+      html,
       body {
-        font-family: "Inter", sans-serif;
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-        background-attachment: fixed;
-      }
-      h1, h2, h3 {
-        font-family: "Orbitron", sans-serif;
-      }
-      .neon-text {
-        text-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff, 0 0 20px #00f0ff;
-      }
-      .card {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 15px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        backdrop-filter: blur(10px);
-      }
-      .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
-      }
-      #particles-js {
-        position: fixed;
-        width: 100%;
         height: 100%;
-        z-index: -1;
-        top: 0;
-        left: 0;
       }
-      .nav-link {
-        position: relative;
-        transition: color 0.3s ease;
+      body {
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        background: linear-gradient(180deg, var(--bg0), var(--bg2));
+        color: var(--text);
       }
-      .nav-link::after {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 2px;
-        bottom: -5px;
-        left: 0;
-        background-color: #00f0ff;
-        transition: width 0.3s ease;
+      .pill {
+        border: 2px solid #fff;
+        border-radius: 9999px;
+        padding: 0.35rem 0.8rem;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        background: #000;
       }
-      .nav-link:hover::after {
+      .pill svg {
+        width: 1rem;
+        height: 1rem;
+      }
+      .logo-bubble {
+        display: inline-block;
+        padding: 0.45rem 0.9rem;
+        border: 3px solid #fff;
+        border-radius: 0.85rem;
+        background: #000;
+        box-shadow: 0 4px 0 #fff, 0 0 0 6px #000;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+      }
+      .search {
+        border: 2px solid #fff;
+        border-radius: 9999px;
+        background: #000;
+      }
+      .search input {
+        background: transparent;
+        outline: none;
+        color: var(--text);
+      }
+      .story-tile {
+        border-radius: 0.75rem;
+        overflow: hidden;
+        background: var(--card);
+        border: 1px solid var(--line);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .story-tile:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45),
+          0 0 0 2px rgba(255, 102, 0, 0.35) inset;
+      }
+      .tile-color {
+        height: 420px;
+        display: grid;
+        place-items: center;
+      }
+      .tile-frame {
+        background: #fff;
+        border-radius: 0.5rem;
+        padding: 0.35rem;
+        max-width: 82%;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+      }
+      .tile-frame img {
+        display: block;
         width: 100%;
+        height: 260px;
+        object-fit: cover;
+        border-radius: 0.35rem;
       }
-      .mobile-menu {
-        display: none;
+      .eyebrow {
+        color: var(--muted);
+        font-size: 0.8rem;
+        letter-spacing: 0.04em;
       }
-      @media (max-width: 768px) {
-        .desktop-menu {
-          display: none;
-        }
-        .mobile-menu {
-          display: block;
-        }
+      .badge {
+        position: absolute;
+        top: 0.85rem;
+        left: 0.85rem;
+        background: #000;
+        border: 2px solid #fff;
+        border-radius: 9999px;
+        padding: 0.15rem 0.5rem;
+        font-weight: 700;
+        font-size: 0.8rem;
+      }
+      .month {
+        position: absolute;
+        top: 0.85rem;
+        right: 0.85rem;
+        background: #000;
+        border: 2px solid #fff;
+        border-radius: 9999px;
+        padding: 0.15rem 0.6rem;
+        font-weight: 700;
+        font-size: 0.8rem;
+      }
+      .accent-link {
+        color: var(--accent);
+      }
+      .accent-ring:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
       }
     </style>
   </head>
-  <body class="text-white relative">
-    <!-- Particle Background -->
-    <div id="particles-js"></div>
 
-    <!-- Navbar -->
-    <nav class="flex justify-between items-center p-6 bg-black bg-opacity-30 backdrop-blur-md fixed w-full z-50">
-      <h1 class="text-2xl font-bold neon-text">Your Name</h1>
-      <div class="desktop-menu space-x-8">
-        <a href="#home" class="nav-link hover:text-cyan-400">Home</a>
-        <a href="#art" class="nav-link hover:text-cyan-400">Art</a>
-        <a href="#dataviz" class="nav-link hover:text-cyan-400">Data Viz</a>
-        <a href="#blog" class="nav-link hover:text-cyan-400">Blog</a>
-        <a href="#projects" class="nav-link hover:text-cyan-400">Projects</a>
-        <a href="#contact" class="nav-link hover:text-cyan-400">Contact</a>
-      </div>
-      <div class="mobile-menu">
-        <button id="mobile-toggle" class="text-2xl">☰</button>
-      </div>
-    </nav>
+  <body>
+    <!-- Top header row -->
+    <header class="w-full">
+      <div
+        class="mx-auto max-w-6xl px-6 pt-6 flex items-center justify-between"
+      >
+        <div class="text-sm text-neutral-300">
+          A studio that explores light and data with visual stories.
+        </div>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-nav" class="hidden fixed top-16 left-0 w-full bg-black bg-opacity-90 backdrop-blur-md z-40 p-6">
-      <div class="flex flex-col space-y-4">
-        <a href="#home" class="nav-link hover:text-cyan-400">Home</a>
-        <a href="#art" class="nav-link hover:text-cyan-400">Art</a>
-        <a href="#dataviz" class="nav-link hover:text-cyan-400">Data Viz</a>
-        <a href="#blog" class="nav-link hover:text-cyan-400">Blog</a>
-        <a href="#projects" class="nav-link hover:text-cyan-400">Projects</a>
-        <a href="#contact" class="nav-link hover:text-cyan-400">Contact</a>
-      </div>
-    </div>
-
-    <!-- Hero Section -->
-    <section id="home" class="h-screen flex flex-col justify-center items-center text-center px-4 relative">
-      <h2 class="text-5xl md:text-7xl font-extrabold mb-6 neon-text" data-aos="fade-up">
-        Lighting Artist & Data Viz Enthusiast
-      </h2>
-      <p class="text-lg md:text-xl text-gray-300 max-w-2xl mb-8" data-aos="fade-up" data-aos-delay="200">
-        Creating immersive lighting art and insightful data visualizations with a passion for storytelling.
-      </p>
-      <div class="flex space-x-4" data-aos="fade-up" data-aos-delay="400">
-        <a href="#art" class="bg-cyan-500 hover:bg-cyan-600 px-6 py-3 rounded-full transition-colors">
-          View My Art
-        </a>
-        <a href="#contact" class="border border-cyan-500 hover:bg-cyan-500 px-6 py-3 rounded-full transition-colors">
-          Get In Touch
-        </a>
-      </div>
-    </section>
-
-    <!-- Lighting Art Section -->
-    <section id="art" class="py-20 px-6 md:px-10" data-aos="fade-up">
-      <h3 class="text-4xl font-bold mb-12 text-center neon-text">Lighting Art Projects</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="card overflow-hidden">
-          <a href="https://via.placeholder.com/1200x800/1a1a1a/00f0ff?text=Project+1" data-lightbox="art" data-title="Neon Dreams - LED Installation">
-            <img src="https://via.placeholder.com/400x300/1a1a1a/00f0ff?text=Neon+Dreams" class="w-full h-48 object-cover" />
+        <nav class="hidden md:flex items-center gap-3">
+          <a class="pill accent-ring" href="#about">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+            >
+              <path d="M12 12c2.8 0 5-2.2 5-5S14.8 2 12 2 7 4.2 7 7s2.2 5 5 5Zm0 2c-4 0-8 2-8 6v2h16v-2c0-4-4-6-8-6Z" />
+            </svg>
+            About
           </a>
-          <div class="p-6">
-            <h4 class="text-xl font-semibold mb-2">Neon Dreams</h4>
-            <p class="text-gray-400 text-sm">Interactive LED installation exploring urban landscapes</p>
-          </div>
-        </div>
-        
-        <div class="card overflow-hidden">
-          <a href="https://via.placeholder.com/1200x800/2a1a2a/ff00f0?text=Project+2" data-lightbox="art" data-title="Lumina Flow - Dynamic Light Sculpture">
-            <img src="https://via.placeholder.com/400x300/2a1a2a/ff00f0?text=Lumina+Flow" class="w-full h-48 object-cover" />
+          <a class="pill accent-ring" href="#subscribe">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+            >
+              <path d="M3 4h18v14H3z" />
+              <path d="M3 8h18M7 20h10" />
+            </svg>
+            Subscribe
           </a>
-          <div class="p-6">
-            <h4 class="text-xl font-semibold mb-2">Lumina Flow</h4>
-            <p class="text-gray-400 text-sm">Dynamic light sculpture responding to ambient sound</p>
-          </div>
-        </div>
-        
-        <div class="card overflow-hidden">
-          <a href="https://via.placeholder.com/1200x800/1a2a1a/00ff00?text=Project+3" data-lightbox="art" data-title="Spectrum Wave - Immersive Environment">
-            <img src="https://via.placeholder.com/400x300/1a2a1a/00ff00?text=Spectrum+Wave" class="w-full h-48 object-cover" />
+          <a class="pill accent-ring" href="#more">
+            <svg
+              viewBox="0 0 24 24"
+              fill="white"
+              stroke="white"
+              stroke-width="0"
+            >
+              <circle cx="5" cy="12" r="2" />
+              <circle cx="12" cy="12" r="2" />
+              <circle cx="19" cy="12" r="2" />
+            </svg>
+            More
           </a>
-          <div class="p-6">
-            <h4 class="text-xl font-semibold mb-2">Spectrum Wave</h4>
-            <p class="text-gray-400 text-sm">Immersive environment with color-shifting panels</p>
+        </nav>
+      </div>
+
+      <!-- Logo + search -->
+      <div class="mx-auto max-w-6xl px-6 mt-6 grid grid-cols-1 gap-6">
+        <div class="flex items-center justify-center">
+          <a class="logo-bubble text-2xl" href="./">YOUR STUDIO</a>
+        </div>
+
+        <div
+          class="flex items-center justify-between flex-wrap gap-4 md:gap-6"
+        >
+          <form
+            class="search flex items-center gap-3 px-4 py-2 w-full md:w-[340px]"
+            role="search"
+            onsubmit="event.preventDefault();"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+              class="shrink-0"
+              width="18"
+              height="18"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path d="m21 21-3.8-3.8" />
+            </svg>
+            <input
+              id="search"
+              class="w-full placeholder-neutral-400"
+              type="text"
+              placeholder="Find a story..."
+              aria-label="Find a story"
+            />
+          </form>
+
+          <div
+            class="flex items-center gap-6 text-sm text-neutral-200 flex-wrap"
+          >
+            <span class="flex items-center gap-2">
+              <svg viewBox="0 0 24 24" fill="white" width="18" height="18">
+                <path
+                  d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.6-7 10-7 10Z"
+                />
+              </svg>
+              Our faves
+            </span>
+            <span class="flex items-center gap-2">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                stroke-width="2"
+                width="18"
+                height="18"
+              >
+                <path d="M13 2 3 14h7l1 8 10-12h-7l-1-8Z" />
+              </svg>
+              Popular
+            </span>
+            <span class="flex items-center gap-2">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                stroke-width="2"
+                width="18"
+                height="18"
+              >
+                <path d="M21 12a9 9 0 1 1-9-9" />
+                <path d="M21 3v6h-6" />
+              </svg>
+              Updating
+            </span>
+            <span class="flex items-center gap-2">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                stroke-width="2"
+                width="18"
+                height="18"
+              >
+                <path d="M12 19v-6M8 19V5m8 14v-9" />
+              </svg>
+              Your input
+            </span>
+            <span class="flex items-center gap-2">
+              <svg viewBox="0 0 24 24" fill="white" width="18" height="18">
+                <path d="M3 5h18v10H3z" />
+                <path d="m10 9 4 3-4 3V9Z" fill="#000" />
+              </svg>
+              Video
+            </span>
+            <span class="flex items-center gap-2">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                stroke-width="2"
+                width="18"
+                height="18"
+              >
+                <path d="M9 18V6l12-2v12l-12 2Z" />
+                <path d="M3 6v12" />
+              </svg>
+              Audio
+            </span>
           </div>
         </div>
       </div>
-    </section>
+    </header>
 
-    <!-- Data Viz Section -->
-    <section id="dataviz" class="py-20 px-6 md:px-10 bg-gray-800 bg-opacity-30" data-aos="fade-up">
-      <h3 class="text-4xl font-bold mb-12 text-center neon-text">Data Visualization Projects</h3>
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div class="card p-6">
-          <div class="bg-gray-700 h-64 rounded mb-4 flex items-center justify-center">
-            <span class="text-gray-400">Interactive Dashboard Embed</span>
-          </div>
-          <h4 class="text-xl font-semibold mb-2">Urban Light Patterns</h4>
-          <p class="text-gray-400 text-sm">Analysis of city lighting data across different neighborhoods</p>
-        </div>
-        
-        <div class="card p-6">
-          <div class="bg-gray-700 h-64 rounded mb-4 flex items-center justify-center">
-            <span class="text-gray-400">D3.js Visualization</span>
-          </div>
-          <h4 class="text-xl font-semibold mb-2">Energy Consumption Flow</h4>
-          <p class="text-gray-400 text-sm">Interactive flow diagram of energy usage patterns</p>
+    <!-- Stories grid -->
+    <main class="mx-auto max-w-6xl px-6 mt-10 pb-24">
+      <section id="stories" class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+        <!-- Tiles injected by JS -->
+      </section>
+
+      <div class="mt-12 text-center">
+        <button
+          id="loadMore"
+          class="pill accent-ring"
+          type="button"
+          aria-label="Load more stories"
+        >
+          Load more
+        </button>
+      </div>
+    </main>
+
+    <footer class="border-t border-[color:var(--line)]/20">
+      <div
+        class="mx-auto max-w-6xl px-6 py-10 text-sm text-neutral-400 flex
+        items-center justify-between flex-wrap gap-4"
+      >
+        <div>© 2025 Your Studio — built with GitHub Pages</div>
+        <div>
+          Inspired by great visual essays across the web. Not affiliated with
+          any third party.
         </div>
       </div>
-    </section>
-
-    <!-- Blog Section -->
-    <section id="blog" class="py-20 px-6 md:px-10" data-aos="fade-up">
-      <h3 class="text-4xl font-bold mb-12 text-center neon-text">Blog</h3>
-      <div class="max-w-4xl mx-auto space-y-6">
-        <article class="card p-6">
-          <div class="flex justify-between items-center mb-4">
-            <h4 class="text-xl font-semibold">The Art of Dynamic Lighting</h4>
-            <span class="text-sm text-gray-400">Aug 10, 2025</span>
-          </div>
-          <p class="text-gray-300 mb-4">Exploring how dynamic lighting can transform spaces and create emotional connections with viewers...</p>
-          <button onclick="showPost('post1')" class="text-cyan-400 hover:underline">Read more →</button>
-        </article>
-        
-        <article class="card p-6">
-          <div class="flex justify-between items-center mb-4">
-            <h4 class="text-xl font-semibold">Visualizing Data with Light</h4>
-            <span class="text-sm text-gray-400">Aug 5, 2025</span>
-          </div>
-          <p class="text-gray-300 mb-4">How I combine my passion for lighting design with data visualization to create meaningful installations...</p>
-          <button onclick="showPost('post2')" class="text-cyan-400 hover:underline">Read more →</button>
-        </article>
-      </div>
-    </section>
-
-    <!-- Blog Post Modal -->
-    <div id="blog-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
-      <div class="card max-w-4xl max-h-96 overflow-y-auto p-8">
-        <button onclick="closePost()" class="float-right text-2xl text-gray-400 hover:text-white">&times;</button>
-        <div id="blog-content"></div>
-      </div>
-    </div>
-
-    <!-- Other Projects -->
-    <section id="projects" class="py-20 px-6 md:px-10 bg-gray-800 bg-opacity-30" data-aos="fade-up">
-      <h3 class="text-4xl font-bold mb-12 text-center neon-text">Other Projects</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="card p-6">
-          <h4 class="text-xl font-semibold mb-3">Arduino Light Controller</h4>
-          <p class="text-gray-400 text-sm mb-4">Custom hardware solution for controlling LED installations</p>
-          <div class="flex space-x-2">
-            <span class="bg-cyan-500 text-xs px-2 py-1 rounded">Arduino</span>
-            <span class="bg-cyan-500 text-xs px-2 py-1 rounded">C++</span>
-          </div>
-        </div>
-        
-        <div class="card p-6">
-          <h4 class="text-xl font-semibold mb-3">React Dashboard</h4>
-          <p class="text-gray-400 text-sm mb-4">Real-time monitoring system for lighting installations</p>
-          <div class="flex space-x-2">
-            <span class="bg-cyan-500 text-xs px-2 py-1 rounded">React</span>
-            <span class="bg-cyan-500 text-xs px-2 py-1 rounded">JavaScript</span>
-          </div>
-        </div>
-        
-        <div class="card p-6">
-          <h4 class="text-xl font-semibold mb-3">Python Data Pipeline</h4>
-          <p class="text-gray-400 text-sm mb-4">Automated data collection and processing for viz projects</p>
-          <div class="flex space-x-2">
-            <span class="bg-cyan-500 text-xs px-2 py-1 rounded">Python</span>
-            <span class="bg-cyan-500 text-xs px-2 py-1 rounded">Pandas</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="py-20 px-6 md:px-10" data-aos="fade-up">
-      <h3 class="text-4xl font-bold mb-12 text-center neon-text">Contact</h3>
-      <div class="max-w-2xl mx-auto text-center">
-        <p class="text-lg mb-8">Let's collaborate on your next lighting or data visualization project</p>
-        <div class="space-y-4">
-          <p>Email: <a href="mailto:you@example.com" class="text-cyan-400 hover:underline">you@example.com</a></p>
-          <p>LinkedIn: <a href="https://linkedin.com/in/yourname" class="text-cyan-400 hover:underline">@yourname</a></p>
-          <p>GitHub: <a href="https://github.com/yourname" class="text-cyan-400 hover:underline">@yourname</a></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-8 px-6 text-center text-gray-500 bg-black bg-opacity-50">
-      © 2025 Your Name. All rights reserved.
     </footer>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    
     <script>
-      // Initialize AOS
-      AOS.init({
-        duration: 1000,
-        easing: 'ease-in-out',
-        once: true
-      });
+      const POSTS_JSON = "blog/posts.json";
+      const GRID = document.getElementById("stories");
+      const SEARCH = document.getElementById("search");
+      const LOAD_MORE = document.getElementById("loadMore");
 
-      // Mobile menu toggle
-      document.getElementById('mobile-toggle').addEventListener('click', function() {
-        const mobileNav = document.getElementById('mobile-nav');
-        mobileNav.classList.toggle('hidden');
-      });
+      let allPosts = [];
+      let filtered = [];
+      let shown = 0;
+      const PAGE_SIZE = 9;
 
-      // Blog post content
-      const blogPosts = {
-        post1: {
-          title: "The Art of Dynamic Lighting",
-          date: "August 10, 2025",
-          content: `
-            <h2>The Art of Dynamic Lighting</h2>
-            <p class="text-gray-400 mb-6">August 10, 2025</p>
-            
-            <p class="mb-4">Lighting design has evolved far beyond simple illumination. In today's world, dynamic lighting serves as a powerful medium for storytelling, emotional connection, and spatial transformation.</p>
-            
-            <h3 class="text-xl font-semibold mb-3 mt-6">The Psychology of Light</h3>
-            <p class="mb-4">Our perception of space is fundamentally altered by the quality, color, and movement of light. Through my installations, I explore how these elements can:</p>
-            
-            <ul class="list-disc list-inside mb-4 space-y-2">
-              <li>Create immersive environments that respond to human presence</li>
-              <li>Evoke specific emotional responses through color temperature shifts</li>
-              <li>Transform architectural spaces into dynamic canvases</li>
-            </ul>
-            
-            <h3 class="text-xl font-semibold mb-3 mt-6">Technology Meets Art</h3>
-            <p class="mb-4">The integration of sensors, microcontrollers, and LED technology opens infinite possibilities for interactive installations. My recent work with Arduino-controlled RGB arrays has allowed me to create lighting that responds to ambient sound, motion, and even data feeds.</p>
-            
-            <p>This intersection of technology and artistry continues to push the boundaries of what lighting design can achieve in contemporary art.</p>
-          `
-        },
-        post2: {
-          title: "Visualizing Data with Light",
-          date: "August 5, 2025",
-          content: `
-            <h2>Visualizing Data with Light</h2>
-            <p class="text-gray-400 mb-6">August 5, 2025</p>
-            
-            <p class="mb-4">The marriage of data visualization and physical lighting installations creates a unique opportunity to make abstract information tangible and emotionally resonant.</p>
-            
-            <h3 class="text-xl font-semibold mb-3 mt-6">Making Data Physical</h3>
-            <p class="mb-4">Traditional data visualization relies on screens and static graphics. By translating data into light patterns, colors, and movements, we can create installations that people experience with their entire bodies.</p>
-            
-            <h3 class="text-xl font-semibold mb-3 mt-6">Recent Projects</h3>
-            <p class="mb-4">My latest installation, "Urban Pulse," translates real-time city traffic data into flowing light patterns across a 20-foot LED wall. Viewers can literally see the rhythm of the city breathing through light.</p>
-            
-            <p class="mb-4">Key techniques I use:</p>
-            
-            <ul class="list-disc list-inside mb-4 space-y-2">
-              <li>Mapping numerical data to color temperature and intensity</li>
-              <li>Using position and movement to represent temporal changes</li>
-              <li>Creating interactive zones where viewers become part of the data</li>
-            </ul>
-            
-            <p>This approach transforms data from something we read into something we feel and experience collectively.</p>
-          `
-        }
-      };
-
-      // Blog post functions
-      function showPost(postId) {
-        const modal = document.getElementById('blog-modal');
-        const content = document.getElementById('blog-content');
-        content.innerHTML = blogPosts[postId].content;
-        modal.classList.remove('hidden');
-      }
-
-      function closePost() {
-        document.getElementById('blog-modal').classList.add('hidden');
-      }
-
-      // Smooth scrolling for navigation links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-            // Close mobile menu if open
-            document.getElementById('mobile-nav').classList.add('hidden');
-          }
+      const fmtMonth = (iso) =>
+        new Date(iso).toLocaleString(undefined, {
+          month: "short",
         });
-      });
+      const fmtYear = (iso) =>
+        new Date(iso).toLocaleString(undefined, { year: "numeric" });
 
-      // Initialize particles
-      particlesJS("particles-js", {
-        particles: {
-          number: { value: 60, density: { enable: true, value_area: 800 } },
-          color: { value: "#00f0ff" },
-          shape: { type: "circle" },
-          opacity: { value: 0.4, random: true },
-          size: { value: 3, random: true },
-          line_linked: {
-            enable: true,
-            distance: 150,
-            color: "#00f0ff",
-            opacity: 0.2,
-            width: 1
-          },
-          move: { 
-            enable: true, 
-            speed: 1.5,
-            direction: "none",
-            random: true,
-            straight: false,
-            out_mode: "bounce",
-            bounce: false
-          }
-        },
-        interactivity: {
-          detect_on: "canvas",
-          events: {
-            onhover: { enable: true, mode: "grab" },
-            onclick: { enable: true, mode: "push" }
-          },
-          modes: {
-            grab: { distance: 140, line_linked: { opacity: 0.8 } },
-            push: { particles_nb: 4 }
-          }
-        },
-        retina_detect: true
-      });
+      function tile(post) {
+        const m = fmtMonth(post.date).toUpperCase();
+        const y = fmtYear(post.date);
+        const bg = post.tileColor || "#222";
+        const issue = post.issue ? `#${post.issue}` : "";
+        const href = `blog.html?p=${encodeURIComponent(post.slug)}`;
+
+        return `
+        <article class="story-tile">
+          <a href="${href}" class="block relative" aria-label="${post.title}">
+            <span class="badge">${issue}</span>
+            <span class="month">${m} ${y}</span>
+
+            <div class="tile-color" style="background:${bg}">
+              <div class="tile-frame">
+                <img src="${post.cover}" alt="${post.title} cover" />
+              </div>
+            </div>
+          </a>
+
+          <div class="p-5">
+            <h3 class="text-2xl font-extrabold leading-tight">
+              <a class="accent-link" href="${href}">${post.title}</a>
+            </h3>
+            <p class="mt-2 text-neutral-300">${post.excerpt}</p>
+          </div>
+        </article>
+      `;
+      }
+
+      function render(reset = false) {
+        if (reset) {
+          GRID.innerHTML = "";
+          shown = 0;
+        }
+        const next = filtered.slice(shown, shown + PAGE_SIZE);
+        GRID.insertAdjacentHTML(
+          "beforeend",
+          next.map((p) => tile(p)).join("")
+        );
+        shown += next.length;
+        LOAD_MORE.style.display =
+          shown >= filtered.length ? "none" : "inline-flex";
+      }
+
+      function doFilter() {
+        const q = (SEARCH.value || "").toLowerCase().trim();
+        filtered = allPosts.filter((p) => {
+          const inText =
+            p.title.toLowerCase().includes(q) ||
+            p.excerpt.toLowerCase().includes(q) ||
+            (p.tags || []).join(" ").toLowerCase().includes(q);
+          return inText;
+        });
+        render(true);
+      }
+
+      async function init() {
+        const res = await fetch(POSTS_JSON);
+        const data = await res.json();
+        allPosts = data.posts
+          .slice()
+          .sort(
+            (a, b) =>
+              new Date(b.date).getTime() - new Date(a.date).getTime()
+          );
+        filtered = allPosts;
+        render(true);
+      }
+
+      SEARCH.addEventListener("input", () => doFilter());
+      LOAD_MORE.addEventListener("click", () => render(false));
+
+      init();
     </script>
   </body>
 </html>

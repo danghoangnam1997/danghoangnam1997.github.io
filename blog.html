@@ -1,55 +1,247 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-gray-900 text-white">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog | Your Name</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Blog | Your Studio</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Showdown for Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
+
+    <!-- Fonts -->
     <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
       rel="stylesheet"
     />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+
     <style>
+      :root {
+        --bg0: #0d0d0d;
+        --bg2: #1a1a1a;
+        --text: #f5f5f5;
+        --muted: #b9b9b9;
+        --line: rgba(255, 255, 255, 0.12);
+        --accent: #ff6600;
+      }
       body {
-        font-family: "Orbitron", sans-serif;
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-        background-attachment: fixed;
+        font-family: Inter, sans-serif;
+        background: linear-gradient(180deg, var(--bg0), var(--bg2));
+        color: var(--text);
       }
-      .neon-text {
-        text-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+      .logo-bubble {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        border: 3px solid #fff;
+        border-radius: 0.85rem;
+        background: #000;
+        box-shadow: 0 4px 0 #fff, 0 0 0 6px #000;
+        font-weight: 800;
+        letter-spacing: 0.5px;
       }
-      .card {
+      .pill {
+        border: 2px solid #fff;
+        border-radius: 9999px;
+        padding: 0.35rem 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        background: #000;
+      }
+      .content h1,
+      .content h2,
+      .content h3 {
+        font-weight: 800;
+        margin-top: 1.25rem;
+        margin-bottom: 0.5rem;
+      }
+      .content p {
+        color: #e8e8e8;
+        margin-bottom: 1rem;
+      }
+      .content a {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+      .story-tile {
+        border-radius: 0.75rem;
+        overflow: hidden;
         background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        padding: 1rem;
-        margin-bottom: 1.5rem;
+        border: 1px solid var(--line);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .story-tile:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0 15px rgba(255, 102, 0, 0.4);
+      }
+      .tile-color {
+        height: 240px;
+        display: grid;
+        place-items: center;
+      }
+      .tile-frame img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 0.35rem;
       }
     </style>
   </head>
-  <body class="p-10 text-white">
-    <h1 class="text-4xl font-bold mb-6 neon-text">Blog</h1>
-    <div id="blog-container" class="space-y-10"></div>
+
+  <body>
+    <!-- Header -->
+    <header class="mx-auto max-w-6xl px-6 pt-6 flex items-center justify-between">
+      <a class="logo-bubble" href="./">YOUR STUDIO</a>
+      <a class="pill" href="./">All stories</a>
+    </header>
+
+    <!-- Main -->
+    <main class="mx-auto max-w-5xl px-6 pb-24">
+      <div id="blog-container" class="mt-10"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[color:var(--line)]/20">
+      <div
+        class="mx-auto max-w-6xl px-6 py-10 text-sm text-neutral-400 flex
+        items-center justify-between flex-wrap gap-4"
+      >
+        <div>© 2025 Your Studio</div>
+        <div><a class="underline" href="./">Home</a></div>
+      </div>
+    </footer>
 
     <script>
-      const posts = ["post1.md", "post2.md"];
-      const converter = new showdown.Converter();
+      const POSTS_JSON = "blog/posts.json";
 
-      posts.forEach((post) => {
-        fetch(`blog/${post}`)
-          .then((res) => res.text())
-          .then((md) => {
-            const html = converter.makeHtml(md);
-            const div = document.createElement("div");
-            div.classList.add("card");
-            div.innerHTML = html;
-            document.getElementById("blog-container").appendChild(div);
-          });
-      });
+      function qs(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name) || "";
+      }
+
+      function parseFrontMatter(md) {
+        if (!md.startsWith("---")) return { meta: {}, body: md };
+        const end = md.indexOf("\n---", 3);
+        if (end === -1) return { meta: {}, body: md };
+        const raw = md.slice(3, end).trim();
+        const body = md.slice(end + 4).trim();
+        const meta = {};
+        raw.split("\n").forEach((line) => {
+          const i = line.indexOf(":");
+          if (i > -1) {
+            const k = line.slice(0, i).trim();
+            const v = line.slice(i + 1).trim();
+            meta[k] = v.replace(/^"|"$|^'|'$/g, "");
+          }
+        });
+        return { meta, body };
+      }
+
+      function readingTime(text) {
+        const wpm = 220;
+        const words = text.trim().split(/\s+/).length;
+        return Math.max(1, Math.round(words / wpm));
+      }
+
+      function renderPost(meta, bodyHtml) {
+        const container = document.getElementById("blog-container");
+        const datePretty = new Date(meta.date).toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+        const minutes = readingTime(bodyHtml);
+
+        container.innerHTML = `
+          <article>
+            <h1 class="text-4xl font-extrabold mb-2">${meta.title}</h1>
+            <p class="text-neutral-400 mb-6">${datePretty} • ${minutes} min read</p>
+            ${
+              meta.hero
+                ? `<img src="${meta.hero}" alt="" class="w-full rounded mb-8" />`
+                : ""
+            }
+            <div class="content">${bodyHtml}</div>
+          </article>
+        `;
+      }
+
+      function renderIndex(posts) {
+        const container = document.getElementById("blog-container");
+        container.innerHTML = `
+          <h1 class="text-3xl font-bold mb-8">All Blog Posts</h1>
+          <div class="grid gap-8 md:grid-cols-2">
+            ${posts
+              .map(
+                (p) => `
+              <a href="blog.html?p=${p.slug}" class="story-tile">
+                <div class="tile-color" style="background:${p.tileColor || "#333"}">
+                  <div class="tile-frame">
+                    <img src="${p.cover}" alt="${p.title}" />
+                  </div>
+                </div>
+                <div class="p-4">
+                  <h2 class="text-xl font-bold mb-1">${p.title}</h2>
+                  <p class="text-neutral-300 text-sm">${p.excerpt}</p>
+                </div>
+              </a>
+            `
+              )
+              .join("")}
+          </div>
+        `;
+      }
+
+      async function init() {
+        const slug = qs("p");
+        const res = await fetch(POSTS_JSON);
+        const data = await res.json();
+        const posts = data.posts || [];
+
+        if (!slug) {
+          // No slug → show index
+          renderIndex(posts);
+          return;
+        }
+
+        const postMeta = posts.find((p) => p.slug === slug);
+        if (!postMeta) {
+          document.getElementById("blog-container").innerHTML =
+            "<p>Post not found.</p>";
+          return;
+        }
+
+        const mdRes = await fetch(`blog/${slug}.md`);
+        if (!mdRes.ok) {
+          document.getElementById("blog-container").innerHTML =
+            "<p>Markdown file not found.</p>";
+          return;
+        }
+
+        const mdRaw = await mdRes.text();
+        const { meta, body } = parseFrontMatter(mdRaw);
+        const conv = new showdown.Converter({
+          tables: true,
+          simplifiedAutoLink: true,
+          strikethrough: true,
+          tasklists: true,
+        });
+        const html = conv.makeHtml(body);
+
+        renderPost(
+          {
+            ...postMeta,
+            ...meta,
+          },
+          html
+        );
+      }
+
+      init();
     </script>
   </body>
 </html>
