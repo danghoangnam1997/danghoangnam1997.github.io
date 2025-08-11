@@ -8,63 +8,49 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
  * useSmoothScroll - A custom React hook to implement smooth scrolling.
  *
  * This hook initializes the Lenis smooth scrolling library and integrates it
- * seamlessly with GSAP's ScrollTrigger. This is crucial because ScrollTrigger
- * needs to be aware of the virtual scroll position provided by Lenis, not the
- * native browser scroll position.
+ * seamlessly with GSAP's ScrollTrigger. This is the professional way to ensure
+ * scroll-based animations work perfectly with a virtual scroller.
  *
  * The hook handles:
- * 1. Creating a single instance of Lenis for the entire application.
- * 2. Setting up a `requestAnimationFrame` loop for Lenis to update the scroll.
- * 3. Ticking GSAP's ScrollTrigger on every Lenis scroll event.
- * 4. Cleaning up the instance and event listeners when the component unmounts.
+ * 1. Creating a single, persistent instance of Lenis.
+ * 2. Adding a function to GSAP's main animation loop ('ticker') to keep Lenis updated.
+ *    This is the crucial step for synchronization.
+ * 3. Ensuring ScrollTrigger uses Lenis for its scroll position calculations.
+ * 4. Cleaning up everything properly when the application unmounts.
  */
 export function useSmoothScroll() {
   useEffect(() => {
-    // 1. Initialize Lenis
-    const lenis = new Lenis({
-      duration: 1.2, // How long the scroll animation lasts
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing function
-      smoothTouch: true, // Enable smooth scrolling for touch devices
-    });
+    // Initialize the Lenis smooth scroller.
+    const lenis = new Lenis();
 
-    // 2. Integrate with GSAP ScrollTrigger
-    // When Lenis scrolls, we update ScrollTrigger's internal state.
+    // Sync GSAP's ScrollTrigger with the scroll events from Lenis.
+    // This tells ScrollTrigger to update its positions whenever Lenis reports a scroll.
     lenis.on('scroll', ScrollTrigger.update);
 
-    // This function tells GSAP to use the Lenis scroller as the source of truth for scroll positions.
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000); // Lenis uses milliseconds, GSAP uses seconds.
-    });
+    // Define a function that will be called by GSAP's ticker on every animation frame.
+    // This function is responsible for telling Lenis to update its state.
+    const ticker = (time) => {
+      // Lenis requires time in seconds, but GSAP provides it in seconds by default.
+      // We pass it directly to lenis.raf (request animation frame).
+      lenis.raf(time);
+    }
 
-    // This sets the default lag for all GSAP ticker events to 0, which is
-    // recommended when using an external RAF (requestAnimationFrame) manager like Lenis.
+    // Add our ticker function to GSAP's main animation loop.
+    // This ensures that Lenis and GSAP are perfectly synchronized.
+    gsap.ticker.add(ticker);
+    
+    // Recommended for optimal performance with external tickers like Lenis.
     gsap.ticker.lagSmoothing(0);
 
-    // 3. Setup the animation frame loop
-    let animationFrameId;
-    function raf(time) {
-      lenis.raf(time);
-      animationFrameId = requestAnimationFrame(raf);
-    }
-    animationFrameId = requestAnimationFrame(raf);
-
-
-    // 4. Cleanup function
-    // This is essential to prevent memory leaks when the component unmounts.
+    // Cleanup function that runs when the component unmounts.
     return () => {
-      // Destroy the Lenis instance
+      // Remove our ticker function from GSAP's loop to prevent memory leaks.
+      gsap.ticker.remove(ticker);
+      // Destroy the Lenis instance to stop all smooth scrolling.
       lenis.destroy();
-      // Cancel the animation frame loop
-      cancelAnimationFrame(animationFrameId);
-      // It's also good practice to remove the GSAP ticker listener,
-      // though GSAP's context-based cleanup often handles this.
-      const tickerFunctions = gsap.ticker.lagSmoothing(); // Hacky way to get ticker funcs
-      if (tickerFunctions && tickerFunctions.length) {
-          gsap.ticker.remove(tickerFunctions[tickerFunctions.length - 1]);
-      }
     };
-  }, []); // The empty dependency array ensures this effect runs only once on mount.
+  }, []); // The empty dependency array ensures this effect runs only ONCE.
 
-  // The hook itself doesn't need to return anything as it just sets up global listeners.
+  // This hook does not render any JSX, it just sets up global effects.
   return null;
 }
