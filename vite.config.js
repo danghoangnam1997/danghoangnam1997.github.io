@@ -5,35 +5,29 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // --- THIS IS THE FIX ---
-  // Set the base path for the production build.
-  // This tells Vite to prepend all asset paths with your repository name.
-  // Replace 'your-repo-name' with the actual name of your GitHub repository.
+  // base should be '/' for your username.github.io repo
+  base: '/',
 
   plugins: [
     react(),
   ],
 
-  // --- PATH ALIASES ---
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
   },
 
-  // --- BUILD OPTIMIZATIONS ---
+  // --- BUILD OPTIMIZATIONS (SIMPLIFIED AND MORE STABLE) ---
   build: {
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1600, // Increased limit for a single vendor chunk
     rollupOptions: {
       output: {
+        // Group all node_modules into a single 'vendor' chunk.
+        // This is more stable than creating multiple vendor chunks and prevents
+        // the dependency loading errors we were seeing.
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (id.includes('three') || id.includes('@react-three')) {
-              return 'vendor_three';
-            }
-            if (id.includes('gsap')) {
-              return 'vendor_gsap';
-            }
             return 'vendor';
           }
         },
