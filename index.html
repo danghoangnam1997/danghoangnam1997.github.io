@@ -1,543 +1,75 @@
-<!doctype html>
-<html lang="en" data-theme="dark">
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
+    <!-- // 1. CORE METADATA -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon: Place your favicon.ico in the /public folder -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- // 2. PRIMARY SEO & BROWSER TAB INFORMATION -->
+    <title>Jane Doe - Creative Developer & Designer</title>
     <meta
       name="description"
-      content="Portfolio of Dang Hoang Nam — Game Lighting Artist. Showcasing
-      realtime and pre-rendered lighting, experiments, and blog posts."
+      content="The portfolio of Jane Doe, a creative developer specializing in immersive WebGL experiences and interactive web design. Let's build something beautiful together."
     />
-    <meta name="author" content="Dang Hoang Nam" />
-    <meta name="theme-color" content="#0c0c0e" />
-    <link rel="canonical" href="https://danghoangnam1997.github.io/" />
 
-    <title>Dang Hoang Nam — Game Lighting Artist</title>
-
-    <!-- Open Graph -->
+    <!-- // 3. OPEN GRAPH / FACEBOOK / LINKEDIN (SOCIAL SHARING) -->
     <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="Dang Hoang Nam — Game Lighting Artist"
-    />
+    <meta property="og:title" content="Jane Doe - The Digital Weaver Portfolio" />
     <meta
       property="og:description"
-      content="Cinematic lighting for games and realtime experiences."
+      content="An interactive and immersive WebGL portfolio showcasing skills in React, Three.js, and modern web animation."
     />
-    <meta
-      property="og:url"
-      content="https://danghoangnam1997.github.io/"
-    />
-    <meta
-      property="og:image"
-      content="https://danghoangnam1997.github.io/assets/images/ui/social-card.jpg"
-    />
+    <!-- 
+      IMPORTANT: Create a high-quality preview image (1200x630px is ideal)
+      and place it in your /public folder. Then update the URL below.
+    -->
+    <meta property="og:image" content="https://your-live-url.com/og-image.jpg" />
+    <meta property="og:url" content="https://your-live-url.com" />
 
-    <!-- Twitter -->
+    <!-- // 4. TWITTER CARD (SOCIAL SHARING) -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Dang Hoang Nam — Game Lighting Artist"
-    />
+    <meta name="twitter:title" content="Jane Doe - The Digital Weaver Portfolio" />
     <meta
       name="twitter:description"
-      content="Cinematic lighting for games and realtime experiences."
+      content="An interactive and immersive WebGL portfolio showcasing skills in React, Three.js, and modern web animation."
     />
-    <meta
-      name="twitter:image"
-      content="https://danghoangnam1997.github.io/assets/images/ui/social-card.jpg"
-    />
+    <!-- Make sure the path to your og-image is an absolute URL -->
+    <meta name="twitter:image" content="https://your-live-url.com/og-image.jpg" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Inter:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
+    <!--
+      You can also link to your theme color for mobile browser UIs.
+      For example, on Chrome for Android.
+    -->
+    <meta name="theme-color" content="#050505" />
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="/css/theme.css" />
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/animations.css" />
-    <link rel="stylesheet" href="/css/responsive.css" />
-
-    <!-- Preconnect for CDN scripts -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Dang Hoang Nam",
-        "jobTitle": "Game Lighting Artist",
-        "url": "https://danghoangnam1997.github.io/",
-        "sameAs": [
-          "https://github.com/danghoangnam1997",
-          "https://www.linkedin.com/",
-          "https://www.artstation.com/",
-          "https://instagram.com/"
-        ]
-      }
-    </script>
   </head>
-
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <!--
+      // THE REACT APP MOUNT POINT
+      This is the single most important element in the body.
+      Your entire React application will be rendered inside this div.
+      Do not change its id unless you also change it in `src/main.jsx`.
+    -->
+    <div id="root"></div>
 
-    <!-- Preloader -->
-    <div id="preloader" class="preloader" aria-hidden="true">
-      <div class="preloader__inner">
-        <span class="preloader__logo">DN</span>
-        <div class="preloader__bar" aria-label="Loading"></div>
-      </div>
-    </div>
+    <!--
+      // JAVASCRIPT ENTRY POINT
+      This script tag is how Vite loads and runs your application.
+      In development, it points to your source files.
+      In production, Vite replaces this with an optimized, bundled script.
+    -->
+    <script type="module" src="/src/main.jsx"></script>
 
-    <!-- Page Transition Overlay -->
-    <div id="page-transition" class="page-transition" aria-hidden="true"></div>
-
-    <!-- Header / Navbar -->
-    <header class="header" data-header>
-      <div class="container header__row">
-        <a class="brand" href="/" aria-label="Home">
-          <span class="brand__mark">DN</span>
-          <span class="brand__name">Dang Hoang Nam</span>
-          <span class="brand__role">Lighting Artist</span>
-        </a>
-
-        <nav class="nav" aria-label="Primary">
-          <button
-            class="nav__toggle"
-            aria-expanded="false"
-            aria-controls="nav-menu"
-            aria-label="Toggle menu"
-          >
-            <span class="nav__toggle-bar"></span>
-          </button>
-
-          <ul id="nav-menu" class="nav__menu">
-            <li><a href="/portfolio.html">Portfolio</a></li>
-            <li><a href="/blog.html">Blog</a></li>
-            <li><a href="/portfolio.html#experiments">Experiments</a></li>
-            <li><a href="/about.html">About</a></li>
-            <li>
-              <a href="/about.html#contact" class="btn btn--sm">Contact</a>
-            </li>
-            <li>
-              <button
-                id="theme-toggle"
-                class="icon-btn"
-                aria-label="Toggle theme"
-                title="Toggle theme"
-              >
-                <svg
-                  class="icon"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M21.64 13a9 9 0 1 1-10.63-10.63 1 1 0 0 1 1.11 1.44A7 7 0 1 0 20.2 11.9a1
-                    1 0 0 1 1.44 1.11z"
-                  />
-                </svg>
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-
-    <main id="main" tabindex="-1">
-      <!-- Hero: Three.js background + intro -->
-      <section class="hero" id="hero" aria-label="Intro">
-        <div class="hero__bg" aria-hidden="true">
-          <canvas id="three-canvas"></canvas>
-          <div class="hero__vignette"></div>
-          <div class="hero__glow"></div>
-        </div>
-
-        <div class="container hero__content">
-          <div class="hero__kicker" data-reveal="up">
-            Game Lighting Artist
-          </div>
-          <h1 class="hero__title" data-reveal="up">
-            Cinematic lighting for games and realtime experiences
-          </h1>
-          <p class="hero__subtitle" data-reveal="up" data-delay="0.1">
-            I craft mood, depth, and storytelling through light — from moody
-            interiors to sprawling worlds. Unreal, Unity, and custom tools.
-          </p>
-
-          <div class="hero__ctas" data-reveal="up" data-delay="0.2">
-            <a class="btn btn--primary" href="#featured">View portfolio</a>
-            <a
-              class="btn btn--ghost"
-              href="/assets/videos/reel.mp4"
-              target="_blank"
-              rel="noopener"
-            >
-              Watch reel
-            </a>
-          </div>
-
-          <div class="hero__social" data-reveal="fade" data-delay="0.3">
-            <a
-              href="https://www.artstation.com/"
-              target="_blank"
-              rel="noopener"
-              aria-label="ArtStation"
-            >
-              <svg
-                class="icon"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  d="M1.5 17.5l5.8-10A3 3 0 0 1 10.9 6h2.2a3 3 0 0 1 2.6 1.5l6.8 12H15l-3-5H8.6l-3.1
-                  5H1.5zm11-9l2.3 4H12l-2.3-4h2.8z"
-                />
-              </svg>
-            </a>
-            <a
-              href="https://github.com/danghoangnam1997"
-              target="_blank"
-              rel="noopener"
-              aria-label="GitHub"
-            >
-              <svg
-                class="icon"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.69c-2.78.6-3.37-1.19-3.37-1.19a2.65
-                  2.65 0 0 0-1.11-1.46c-.9-.61.07-.6.07-.6a2.1 2.1 0 0 1 1.54
-                  1.04 2.13 2.13 0 0 0 2.9.83 2.14 2.14 0 0 1 .64-1.34c-2.22-.25-4.55-1.11-4.55-4.93a3.86
-                  3.86 0 0 1 1-2.68 3.58 3.58 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.4 9.4 0 0 1 5 0c1.91-1.29
-                  2.75-1.02 2.75-1.02a3.58 3.58 0 0 1 .1 2.64 3.86 3.86 0 0 1 1 2.68c0 3.83-2.34 4.68-4.57
-                  4.93a2.37 2.37 0 0 1 .68 1.84v2.73c0 .26.18.58.69.48A10 10 0 0 0 12 2z"
-                />
-              </svg>
-            </a>
-            <a
-              href="https://www.linkedin.com/"
-              target="_blank"
-              rel="noopener"
-              aria-label="LinkedIn"
-            >
-              <svg
-                class="icon"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  d="M20.45 20.45h-3.55v-5.6c0-1.34-.02-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16
-                  2.97v5.7H9.33V9h3.4v1.56h.05a3.72 3.72 0 0 1 3.35-1.84c3.58 0 4.24 2.36 4.24
-                  5.42v6.31zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.55V9h3.57v11.45z"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Featured Portfolio -->
-      <section
-        class="section section--pad"
-        id="featured"
-        aria-labelledby="featured-title"
-      >
-        <div class="container">
-          <header class="section__header">
-            <h2 id="featured-title" data-reveal="up">
-              Featured lighting projects
-            </h2>
-            <p class="section__desc" data-reveal="up" data-delay="0.1">
-              Selected realtime and pre-rendered lighting studies.
-            </p>
-          </header>
-
-          <div class="filters" role="tablist" aria-label="Project filters">
-            <button
-              role="tab"
-              aria-selected="true"
-              class="chip is-active"
-              data-filter="all"
-            >
-              All
-            </button>
-            <button role="tab" class="chip" data-filter="games">Games</button>
-            <button role="tab" class="chip" data-filter="cinematics">
-              Cinematics
-            </button>
-            <button role="tab" class="chip" data-filter="rd">R&amp;D</button>
-          </div>
-
-          <div
-            class="grid projects-grid"
-            id="featured-grid"
-            data-populate="featured-projects"
-          >
-            <!-- JS will populate. Fallback placeholders: -->
-            <article class="card card--skeleton" aria-hidden="true"></article>
-            <article class="card card--skeleton" aria-hidden="true"></article>
-            <article class="card card--skeleton" aria-hidden="true"></article>
-            <article class="card card--skeleton" aria-hidden="true"></article>
-            <article class="card card--skeleton" aria-hidden="true"></article>
-            <article class="card card--skeleton" aria-hidden="true"></article>
-          </div>
-
-          <div class="section__cta">
-            <a class="btn btn--ghost" href="/portfolio.html">
-              View all projects
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Experiments -->
-      <section
-        class="section section--alt section--pad"
-        id="experiments"
-        aria-labelledby="experiments-title"
-      >
-        <div class="container">
-          <header class="section__header">
-            <h2 id="experiments-title" data-reveal="up">
-              Interactive experiments
-            </h2>
-            <p class="section__desc" data-reveal="up" data-delay="0.1">
-              Small tools, shaders, data viz, and web apps.
-            </p>
-          </header>
-
-          <div
-            class="grid experiments-grid"
-            id="experiments-grid"
-            data-populate="experiments"
-          >
-            <article class="card card--skeleton" aria-hidden="true"></article>
-            <article class="card card--skeleton" aria-hidden="true"></article>
-            <article class="card card--skeleton" aria-hidden="true"></article>
-          </div>
-
-          <div class="section__cta">
-            <a class="btn btn--ghost" href="/portfolio.html#experiments">
-              Explore more
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Blog -->
-      <section
-        class="section section--pad"
-        id="blog"
-        aria-labelledby="blog-title"
-      >
-        <div class="container">
-          <header class="section__header">
-            <h2 id="blog-title" data-reveal="up">Latest from the blog</h2>
-            <p class="section__desc" data-reveal="up" data-delay="0.1">
-              Notes on lighting, breakdowns, and process.
-            </p>
-          </header>
-
-          <div
-            class="grid blog-grid"
-            id="blog-grid"
-            data-populate="latest-posts"
-          >
-            <article class="post post--skeleton" aria-hidden="true"></article>
-            <article class="post post--skeleton" aria-hidden="true"></article>
-            <article class="post post--skeleton" aria-hidden="true"></article>
-          </div>
-
-          <div class="section__cta">
-            <a class="btn btn--ghost" href="/blog.html">Read the blog</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- About / CTA -->
-      <section
-        class="section section--alt section--pad"
-        id="about-cta"
-        aria-labelledby="about-cta-title"
-      >
-        <div class="container about-cta">
-          <div class="about-cta__text">
-            <h2 id="about-cta-title" data-reveal="up">
-              Lighting that tells a story
-            </h2>
-            <p data-reveal="up" data-delay="0.1">
-              Focused on mood, readability, and performance. Experienced in
-              Unreal Engine, Unity, and DCC pipelines.
-            </p>
-
-            <ul class="list badges" data-reveal="up" data-delay="0.2">
-              <li class="badge">Unreal Engine</li>
-              <li class="badge">Unity</li>
-              <li class="badge">Blender</li>
-              <li class="badge">Substance</li>
-              <li class="badge">Nuke</li>
-            </ul>
-
-            <div class="about-cta__buttons" data-reveal="up" data-delay="0.3">
-              <a class="btn btn--primary" href="/about.html">About me</a>
-              <a class="btn btn--ghost" href="/about.html#contact">
-                Get in touch
-              </a>
-            </div>
-          </div>
-
-          <div class="about-cta__visual" aria-hidden="true">
-            <div class="about-cta__tile glow-tile">
-              <span class="glow-tile__light"></span>
-              <span class="glow-tile__light is-2"></span>
-              <span class="glow-tile__light is-3"></span>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container footer__grid">
-        <div class="footer__brand">
-          <a class="brand" href="/">
-            <span class="brand__mark">DN</span>
-            <span class="brand__name">Dang Hoang Nam</span>
-          </a>
-          <p class="footer__tagline">
-            Cinematic lighting for games and realtime experiences.
-          </p>
-        </div>
-
-        <nav class="footer__nav" aria-label="Footer">
-          <div>
-            <h3 class="footer__title">Explore</h3>
-            <ul>
-              <li><a href="/portfolio.html">Portfolio</a></li>
-              <li><a href="/blog.html">Blog</a></li>
-              <li><a href="/portfolio.html#experiments">Experiments</a></li>
-              <li><a href="/about.html">About</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="footer__title">Connect</h3>
-            <ul>
-              <li>
-                <a href="mailto:danghoangnam1997@gmail.com">Email</a>
-              </li>
-              <li>
-                <a href="https://www.artstation.com/" target="_blank"
-                  >ArtStation</a
-                >
-              </li>
-              <li>
-                <a
-                  href="https://github.com/danghoangnam1997"
-                  target="_blank"
-                  rel="noopener"
-                  >GitHub</a
-                >
-              </li>
-              <li>
-                <a href="https://www.linkedin.com/" target="_blank"
-                  >LinkedIn</a
-                >
-              </li>
-            </ul>
-          </div>
-        </nav>
-
-        <div class="footer__extra">
-          <button
-            id="scroll-top"
-            class="icon-btn"
-            aria-label="Scroll to top"
-            title="Back to top"
-          >
-            <svg
-              class="icon"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M12 4l-7 8h4v8h6v-8h4z" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <div class="footer__bottom">
-        <div class="container footer__row">
-          <small>
-            © <span id="year"></span> Dang Hoang Nam. All rights reserved.
-          </small>
-          <small>
-            <a href="/README.md" target="_blank" rel="noopener">
-              Source & credits
-            </a>
-          </small>
-        </div>
-      </div>
-    </footer>
-
+    <!--
+      // ACCESSIBILITY FALLBACK
+      This message will be shown to users who have JavaScript disabled in their browser.
+      Since your entire site is a JavaScript application, this is crucial.
+    -->
     <noscript>
-      <div class="noscript">
-        This site uses animations and interactive effects. Enable JavaScript for
-        the full experience.
-      </div>
+      This website requires JavaScript to be enabled. Please enable it to view this immersive portfolio experience.
     </noscript>
-
-    <!-- Vendor libraries -->
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"
-    ></script>
-
-    <!-- App scripts -->
-    <script defer src="/js/data.js"></script>
-    <script defer src="/js/blog.js"></script>
-    <script defer src="/js/animations.js"></script>
-    <script defer src="/js/three-scene.js"></script>
-    <script defer src="/js/main.js"></script>
-
-    <!-- Inline tiny helpers -->
-    <script>
-      (function () {
-        var y = document.getElementById("year");
-        if (y) y.textContent = new Date().getFullYear();
-      })();
-    </script>
   </body>
 </html>
