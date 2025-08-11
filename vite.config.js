@@ -9,7 +9,6 @@ export default defineConfig({
   // Set the base path for the production build.
   // This tells Vite to prepend all asset paths with your repository name.
   // Replace 'your-repo-name' with the actual name of your GitHub repository.
-  base: '/danghoangnam1997.github.io/',
 
   plugins: [
     react(),
