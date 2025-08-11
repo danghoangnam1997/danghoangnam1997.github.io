@@ -1,0 +1,80 @@
+# A human-readable name for your workflow, which will appear in the "Actions" tab.
+name: Deploy Portfolio to GitHub Pages
+
+# --- 1. TRIGGER CONFIGURATION ---
+# This workflow runs on pushes to the 'main' branch and can also be run manually.
+on:
+  push:
+    branches: ["main"] # Or "master", depending on your repository's default branch.
+  
+  # Allows you to run this workflow manually from the Actions tab on GitHub.
+  workflow_dispatch:
+
+# --- 2. SECURITY PERMISSIONS ---
+# Sets the permissions for the GITHUB_TOKEN to allow deployment.
+# This is a secure best practice, granting only the necessary permissions.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# --- 3. CONCURRENCY SETTINGS ---
+# Ensures that only one deployment runs at a time for this workflow.
+# If you push again while a deployment is running, it will cancel the old one.
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+# --- 4. JOBS CONFIGURATION ---
+# A workflow is made up of one or more jobs that run in sequence or in parallel.
+jobs:
+  # The single job in this workflow is named 'deploy'.
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }} # This will set the deployment URL in your repo's environment tab.
+    runs-on: ubuntu-latest # The job will run on a fresh virtual machine hosted by GitHub.
+    steps:
+      # Step 1: Checkout the code
+      # This action checks out your repository's code so the job can access it.
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js
+      # This action sets up a specific version of Node.js needed to build your project.
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Use a current LTS (Long-Term Support) version.
+          cache: 'npm' # Caches npm dependencies for faster builds.
+
+      # Step 3: Install dependencies
+      # Runs the standard npm command to install all packages from package.json.
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Build the project
+      # Runs the 'build' script from your package.json file.
+      # This must generate a static site in a `/dist` folder.
+      - name: Build
+        run: npm run build
+
+      # Step 5: Configure GitHub Pages
+      # This official action prepares the environment for the artifact upload.
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # Step 6: Upload the build artifact
+      # This action takes the contents of your build output folder (`/dist`) and
+      # uploads it as a ready-to-deploy artifact named 'github-pages'.
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # This path must match the build output directory in your vite.config.js.
+          path: './dist'
+
+      # Step 7: Deploy to GitHub Pages
+      # This action takes the uploaded artifact and deploys it.
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
