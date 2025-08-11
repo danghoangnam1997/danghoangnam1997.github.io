@@ -1,23 +1,28 @@
 import { useEffect } from 'react';
+import { motion } from 'framer-motion';
+
+// Import helper function and reusable components
 import { getProjectById } from '../data/projects';
+import { Button } from '../components/ui/Button';
+
+// Import the specific CSS for this component
 import '../styles/ProjectDetailPage.css';
 
 /**
  * ProjectDetailPage - A component to display the detailed case study of a single project.
  *
  * This component is designed to appear as an overlay or a new "view" in the application.
- * It's responsible for:
- * 1. Fetching the correct project data using the provided `projectId`.
- * 2. Displaying all project details in a clean, readable layout.
- * 3. Providing a "close" button that calls the `onClose` function passed in props,
- *    which will trigger the transition back to the main 3D scene.
+ * It's wrapped in a `motion.div` to be animated by Framer Motion's AnimatePresence.
+ *
+ * @param {object} props - The component's props.
+ * @param {string} props.projectId - The ID of the project to display.
+ * @param {Function} props.onClose - The function to call to close this view.
  */
 export function ProjectDetailPage({ projectId, onClose }) {
   // Fetch the project data from our centralized data file.
   const project = getProjectById(projectId);
 
   // An effect to handle the 'Escape' key press for closing the detail view.
-  // This is a common and important UX feature for modal-like views.
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
@@ -39,9 +44,26 @@ export function ProjectDetailPage({ projectId, onClose }) {
   }
 
   return (
-    // The main container for the detail page with a class for styling and animation.
-    <div className="project-detail-overlay">
-      <article className="project-detail-content">
+    // This `motion.div` is the main container that will be animated.
+    // The `initial`, `animate`, and `exit` props define the animation states.
+    <motion.div
+      className="project-detail-overlay"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4, ease: 'easeInOut' }}
+      // Clicking the backdrop also closes the modal.
+      onClick={onClose}
+    >
+      <motion.article
+        className="project-detail-content"
+        // Prevent clicks inside the content from closing the modal.
+        onClick={(e) => e.stopPropagation()}
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 50, opacity: 0 }}
+        transition={{ duration: 0.4, ease: 'easeInOut' }}
+      >
         {/* --- CLOSE BUTTON --- */}
         <button className="close-button" onClick={onClose} aria-label="Close project details">
           &times;
@@ -75,20 +97,21 @@ export function ProjectDetailPage({ projectId, onClose }) {
               </ul>
             </div>
             <div className="project-links">
+              {/* --- Refactored to use the reusable Button component --- */}
               {project.liveUrl && (
-                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="cta-button">
+                <Button href={project.liveUrl}>
                   Live Site
-                </a>
+                </Button>
               )}
               {project.repoUrl && (
-                <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="cta-button secondary">
+                <Button href={project.repoUrl} variant="secondary">
                   View Code
-                </a>
+                </Button>
               )}
             </div>
           </aside>
         </section>
-      </article>
-    </div>
+      </motion.article>
+    </motion.div>
   );
 }
