@@ -1,52 +1,26 @@
-// src/components/scene/Effects.jsx
-import { EffectComposer, Bloom, DepthOfField, Vignette } from '@react-three/postprocessing';
+// src/components/scene/Effects.jsx (Lighter & Faster Version)
+import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 
 /**
- * Effects - A centralized component for all post-processing effects.
+ * Effects - A performance-focused post-processing stack.
  *
- * This component wraps the <EffectComposer> and all the desired visual effect passes.
- * Centralizing them here cleans up the main <Scene> component and makes it easy
- * to manage and tweak the final look and feel of the WebGL canvas.
- *
- * It includes:
- * - Bloom: Creates a glowing halo around bright, emissive objects.
- * - DepthOfField: Blurs objects that are not in focus, creating a cinematic,
- *   photographic effect that helps guide the user's eye.
- * - Vignette: Darkens the corners of the screen, further focusing attention
- *   on the center of the scene.
+ * This version is much lighter because:
+ * 1. It COMPLETELY REMOVES DepthOfField, which is very GPU-intensive.
+ * 2. The Bloom effect is toned down with a smaller kernel size and intensity,
+ *    making it faster to compute.
+ * 3. Vignette is kept because it's a very cheap effect that adds a lot of atmosphere.
  */
 export function Effects() {
   return (
     <EffectComposer>
-      {/*
-        The Bloom effect we previously had in Scene.jsx.
-        It's the primary effect for our "glowing" aesthetic.
-      */}
+      {/* A much less intense Bloom effect for a subtle glow. */}
       <Bloom
-        luminanceThreshold={0.2}
-        intensity={1.2}
+        luminanceThreshold={0.3} // Only brighter things will bloom
+        intensity={0.8}          // Less intense glow
         mipmapBlur
-        kernelSize={3}
+        kernelSize={2}           // Smaller kernel size is much faster
       />
-      {/*
-        Depth of Field adds a powerful sense of realism and focus.
-        - focusDistance: How far from the camera the focal plane is. 0 = near, 1 = far.
-        - focalLength: The distance between the lens and the focal plane. Affects bokeh strength.
-        - bokehScale: The size of the blur effect (the "bokeh" circles).
-        - height: The resolution of the blur. Lower for better performance.
-      */}
-      <DepthOfField
-        focusDistance={0}
-        focalLength={0.02}
-        bokehScale={4}
-        height={480}
-      />
-      {/*
-        Vignette is a subtle but effective way to frame the scene.
-        - eskil: If false, it's a hard-edged vignette. If true, it's a smooth, soft one.
-        - offset: How far the vignette starts from the center (0 to 1).
-        - darkness: How dark the vignette is (0 to 1).
-      */}
+      {/* Vignette is very performant and helps focus the scene. */}
       <Vignette eskil={false} offset={0.1} darkness={1.1} />
     </EffectComposer>
   );
