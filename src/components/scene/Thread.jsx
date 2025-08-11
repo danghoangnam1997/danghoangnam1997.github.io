@@ -85,7 +85,7 @@ export function Thread() {
           - 8:   Number of segments around the circumference. Higher is rounder.
           - false: The tube is not a closed loop.
       */}
-      <tubeGeometry ref={geometryRef} args={[curve, 128, 0.1, 8, false]} />
+      <tubeGeometry ref={geometryRef} args={[curve, 32, 0.1, 8, false]} />
 
       {/*
         The material determines how the object looks.
