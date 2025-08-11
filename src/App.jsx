@@ -1,57 +1,53 @@
-// src/App.jsx (Final Version)
+import { lazy, Suspense } from 'react'; // <-- Import lazy and Suspense from React
 import { AnimatePresence } from 'framer-motion';
 
-// Import our two main "views"
+// Import components and the store
 import { HomePage } from './pages/HomePage';
-import { ProjectDetailPage } from './pages/ProjectDetailPage';
-
-// Import our global store to access the application's state
+import { Loader } from './components/ui/Loader';
 import { useStore } from './store';
 
+// --- LAZY LOADING ---
+// Instead of a direct import, we use React.lazy().
+// This creates a special component that will only fetch the code for ProjectDetailPage
+// when it is first rendered. The 'webpackChunkName' comment is a hint for bundlers
+// like Vite/Webpack to name the split file for easier debugging.
+const ProjectDetailPage = lazy(() =>
+  import(/* webpackChunkName: "ProjectDetailPage" */ './pages/ProjectDetailPage')
+);
+
 /**
- * App.jsx - The Top-Level Application Shell and Router
+ * App.jsx - The Performance-Optimized Application Shell
  *
- * This component acts as the director of the entire application.
- * Its sole responsibility is to manage the current view state and render the
- * appropriate page component based on that state.
- *
- * It uses the global Zustand store to determine if a project has been selected.
- * - If `selectedProjectId` is null, it renders the main `HomePage`.
- * - If `selectedProjectId` has a value, it renders the `ProjectDetailPage`.
- *
- * It uses `framer-motion`'s `<AnimatePresence>` to orchestrate smooth
- * fade-in/fade-out transitions between these two states.
+ * This version introduces code-splitting via React.lazy and Suspense.
+ * The heavy `ProjectDetailPage` component is no longer part of the initial
+ * JavaScript bundle. Its code is now fetched from the server only when a user
+ * actually clicks on a project blossom. This significantly reduces the initial
+ * load time and improves the site's Core Web Vitals.
  */
 export default function App() {
-  // Subscribe to the state from our Zustand store.
-  // This component will automatically re-render when these values change.
   const selectedProjectId = useStore((state) => state.selectedProjectId);
   const clearProject = useStore((state) => state.clearProject);
 
   return (
     <>
-      {/* 
-        The HomePage is always rendered in the background. 
-        This is because our 3D scene is part of it, and we don't want to unmount/remount
-        that expensive canvas every time we open or close a project. It remains persistent.
-      */}
+      <Loader />
       <HomePage />
 
-      {/*
-        AnimatePresence is a powerful component from Framer Motion.
-        It enables animations on components when they are added to or removed from the React tree.
-        When `selectedProjectId` changes from a value to null, AnimatePresence will wait for
-        the exit animation of `ProjectDetailPage` to complete before removing it from the DOM.
-      */}
       <AnimatePresence>
         {selectedProjectId && (
-          // If a project is selected, we render the detail page.
-          // The `key` prop is crucial for AnimatePresence to track the component.
-          <ProjectDetailPage
-            key={selectedProjectId}
-            projectId={selectedProjectId}
-            onClose={clearProject} // Pass the 'clearProject' action as the close handler.
-          />
+          // --- SUSPENSE WRAPPER ---
+          // When a user clicks a blossom, `selectedProjectId` gets a value.
+          // React tries to render `ProjectDetailPage`, but its code hasn't been loaded yet.
+          // `Suspense` catches this and displays the `fallback` UI instead.
+          // Once the code is downloaded, Suspense automatically swaps the fallback
+          // with the fully rendered ProjectDetailPage component.
+          <Suspense fallback={null}> {/* We can show a spinner, but null is fine for a quick load */}
+            <ProjectDetailPage
+              key={selectedProjectId}
+              projectId={selectedProjectId}
+              onClose={clearProject}
+            />
+          </Suspense>
         )}
       </AnimatePresence>
     </>
