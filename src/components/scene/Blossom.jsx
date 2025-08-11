@@ -1,66 +1,98 @@
 import { useState } from 'react';
-import { useCursor, Sphere, Html } from '@react-three/drei';
+import { useCursor, Sphere } from '@react-three/drei';
 import { a, useSpring } from '@react-spring/three';
 
-// We create an 'animated' version of the Sphere component from drei.
-// This allows react-spring to animate its properties directly and performantly.
+// Import the global state store to get actions for view-switching and cursor state.
+import { useStore } from '../../store';
+
+// We create an "animated" version of the Sphere component.
+// This allows react-spring to animate its properties directly and performantly on the GPU.
 const AnimatedSphere = a(Sphere);
 
 /**
- * Blossom Component - An interactive node representing a single project.
+ * Blossom - An interactive 3D node representing a single project.
  *
- * This component is responsible for:
+ * This component is the primary point of interaction within the 3D scene.
+ * It is responsible for:
  * 1. Rendering a sphere at a given position.
- * 2. Managing its own hover state.
- * 3. Changing the mouse cursor to a pointer on hover to indicate interactivity.
- * 4. Using spring animations for smooth scaling and color changes on hover.
- * 5. Handling click events to eventually navigate to a project detail page.
+ * 2. Managing its own hover state for visual feedback.
+ * 3. Using physics-based spring animations for smooth scaling and color changes on hover.
+ * 4. Changing the system cursor to a pointer on hover to indicate interactivity.
+ * 5. Firing global state actions on click (to open the project detail page) and on hover
+ *    (to change the custom cursor's appearance).
+ *
+ * @param {object} props - The component's props.
+ * @param {string} props.projectId - The unique ID of the project this blossom represents.
+ * @param {THREE.Vector3} props.position - The 3D position where the blossom should be rendered.
  */
 export function Blossom({ projectId, position }) {
-  // State to track if the mouse is currently hovering over this blossom.
+  // Local state to track if the mouse is currently hovering over this specific blossom.
   const [isHovered, setIsHovered] = useState(false);
 
-  // useCursor is a drei hook that changes the document's cursor style on hover.
-  // It's a small detail that greatly improves user experience.
+  // Get the state-setting actions from our global Zustand store.
+  // We destructure them here for easy access.
+  const { selectProject, setHovering } = useStore((state) => ({
+    selectProject: state.selectProject,
+    setHovering: state.setHovering,
+  }));
+
+  // useCursor is a drei hook that changes the document's cursor style.
+  // When `isHovered` is true, it sets the cursor to 'pointer'.
+  // This is a crucial and simple UX improvement.
   useCursor(isHovered);
 
   // --- SPRING ANIMATION ---
-  // useSpring is a hook from react-spring that creates a physics-based animation.
-  // We define the "to" state based on the `isHovered` boolean. When `isHovered` changes,
-  // the spring will automatically animate the values to their new target.
+  // `useSpring` creates a physics-based animation. It will automatically
+  // animate values to their new target whenever the `isHovered` state changes.
   const springProps = useSpring({
     // The scale of the sphere. It grows 1.5x larger on hover.
     scale: isHovered ? 1.5 : 1,
-    // The intensity of the emissive glow. It brightens on hover.
+    // The intensity of the emissive glow. It brightens significantly on hover.
     emissiveIntensity: isHovered ? 6 : 2,
-    // The color of the sphere.
-    color: isHovered ? '#ff69b4' : '#ffffff', // A hotpink on hover
-    // Configuration for the spring physics.
-    config: { mass: 1, tension: 280, friction: 60 },
+    // The color of the sphere. We can use a brand color for the hover state.
+    color: isHovered ? 'hotpink' : '#ffffff',
+    // Configuration for the spring physics to give it a nice, slightly bouncy feel.
+    config: { mass: 1, tension: 280, friction: 40 },
   });
 
-  // Function to handle the click event.
-  const handleClick = () => {
-    // In a full application, this would use a router or state manager
-    // to trigger the "fly-in" animation and navigate to the project page.
-    console.log(`Clicked on project: ${projectId}`);
-    // e.g., setAppState({ currentProject: projectId, view: 'detail' });
+  // --- EVENT HANDLERS ---
+  const handleClick = (e) => {
+    // Stop the event from bubbling up to the canvas or other 3D objects.
+    e.stopPropagation();
+    // Call the global action to set the selected project ID, which will
+    // trigger the App.jsx component to render the ProjectDetailPage.
+    selectProject(projectId);
+  };
+
+  const handlePointerOver = (e) => {
+    e.stopPropagation();
+    // Set both the local hover state and the global hover state to true.
+    setIsHovered(true);
+    setHovering(true);
+  };
+
+  const handlePointerOut = () => {
+    // Set both the local and global hover states back to false.
+    setIsHovered(false);
+    setHovering(false);
   };
 
   return (
-    // We use the animated version of the Sphere component.
-    // The animated properties (scale, emissiveIntensity) are passed directly from our spring.
+    // We render the animated version of the Sphere component.
+    // The animated properties (scale, etc.) are passed directly from our spring.
     <AnimatedSphere
       position={position}
       scale={springProps.scale}
-      onPointerOver={(e) => {
-        e.stopPropagation(); // Prevents events from bubbling up to other 3D objects
-        setIsHovered(true);
-      }}
-      onPointerOut={() => setIsHovered(false)}
+      onPointerOver={handlePointerOver}
+      onPointerOut={handlePointerOut}
       onClick={handleClick}
       args={[0.4, 32, 32]} // [radius, widthSegments, heightSegments]
     >
+      {/* 
+        The material determines how the object looks.
+        Its properties are also driven by our spring animation for a cohesive effect.
+        - `toneMapped={false}` is crucial for emissive materials to work correctly with Bloom.
+      */}
       <meshStandardMaterial
         color={springProps.color}
         emissive={springProps.color}
