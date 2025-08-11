@@ -1,0 +1,55 @@
+/* src/components/ui/Loader.css */
+
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  z-index: 200; /* Must be on top of everything */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* Initial state: visible and fully opaque */
+  opacity: 1;
+  pointer-events: all;
+
+  /* Smooth transition for fading out */
+  transition: opacity 0.5s ease-in-out 0.5s; /* 0.5s delay before starting fade */
+}
+
+/* When loading is finished, the `data-active` attribute becomes false. */
+/* We target this to fade the loader out and disable pointer events. */
+.loader-container:not([data-active='true']) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader-content {
+  width: 200px;
+  text-align: center;
+}
+
+.loader-progress-bar-container {
+  width: 100%;
+  height: 4px;
+  background-color: #222222;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.loader-progress-bar {
+  height: 100%;
+  background-color: hotpink;
+  border-radius: 2px;
+  transition: width 0.3s ease; /* Smoothly animate the bar's width */
+}
+
+.loader-progress-text {
+  color: #ffffff;
+  font-family: monospace;
+  font-size: 1rem;
+}
