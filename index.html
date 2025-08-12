@@ -114,18 +114,13 @@
     </div>
   </div>
 
-<script src="https://unpkg.com/pixi.js@7.4.0/dist/pixi.min.js"></script>
-<script src="https://unpkg.com/pixi-filters@6.0.5/dist/pixi-filters.min.js"></script>
-<script>
-  // Now PIXI and PIXI.filters.GlowFilter are available globally
-  const app = new PIXI.Application({ resizeTo: document.getElementById("app") });
-  document.getElementById("app").appendChild(app.view);
+  <!-- Load PixiJS and pixi-filters UMD builds -->
+  <script src="https://unpkg.com/pixi.js@7.4.0/dist/pixi.min.js"></script>
+  <script src="https://unpkg.com/pixi-filters@6.0.5/dist/pixi-filters.min.js"></script>
 
-  const glow = new PIXI.filters.GlowFilter({ distance: 12, outerStrength: 2, color: 0xffcc66 });
-
-    // ---------------------------
-    // FULL APP LOGIC MERGED HERE
-    // ---------------------------
+  <!-- Full App Code -->
+  <script>
+    const GlowFilter = PIXI.filters.GlowFilter;
 
     const DATA = {
       hyg: "data/hyg.min.json",
@@ -371,7 +366,7 @@
       }
     }
 
-    // Simple mouse pan/zoom
+    // Mouse pan/zoom
     app.view.addEventListener("mousedown", (e) => {
       state.dragging = true;
       state.dragStart = { x: e.clientX, y: e.clientY, ra0: state.ra0, dec0: state.dec0 };
