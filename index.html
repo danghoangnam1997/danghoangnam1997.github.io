@@ -1,686 +1,400 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Pokémon Night Sky</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        background: #080a12;
-        color: #eaeaf0;
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      }
-      #app {
-        position: fixed;
-        inset: 0;
-        overflow: hidden;
-      }
-      .ui {
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        background: rgba(10, 12, 20, 0.75);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        padding: 10px 12px;
-        backdrop-filter: blur(4px);
-        z-index: 10;
-        max-width: 360px;
-      }
-      .ui h3 {
-        margin: 4px 0 8px;
-        font-size: 14px;
-        opacity: 0.9;
-      }
-      .row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin: 4px 0;
-        font-size: 13px;
-      }
-      .row label {
-        width: 140px;
-        opacity: 0.85;
-      }
-      .row input[type="range"] {
-        width: 170px;
-      }
-      .row input[type="number"] {
-        width: 80px;
-        background: #0f1220;
-        border: 1px solid #2a2d3a;
-        color: #eaeaf0;
-        border-radius: 6px;
-        padding: 4px 6px;
-      }
-      button {
-        background: #2a57ff;
-        border: none;
-        color: white;
-        padding: 6px 10px;
-        border-radius: 6px;
-        cursor: pointer;
-      }
-      button:active {
-        transform: translateY(1px);
-      }
-      .kbd {
-        background: #0f1220;
-        border: 1px solid #2a2d3a;
-        border-radius: 4px;
-        padding: 1px 6px;
-        font-size: 12px;
-      }
-      .hint {
-        font-size: 12px;
-        opacity: 0.7;
-        margin-top: 6px;
-      }
-      a {
-        color: #8fb8ff;
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-    </style>
-    <script
-      src="https://cdn.jsdelivr.net/npm/pixi.js@7.4.0/dist/browser/pixi.min.js"
-      integrity="sha256-8pX0pXrN+8V1kwoI4zY69kW9dc+GfV7dK0I5f3QkMoA="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/pixi-filters@6.0.5/dist/pixi-filters.min.js"
-      integrity="sha256-3o32y1l1h2wR7R8o7X0hHj3e7oS6mLr7mS1Xv2eT8Qg="
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
-    <div id="app"></div>
+<head>
+  <meta charset="utf-8" />
+  <title>Pokémon Night Sky</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #080a12;
+      color: #eaeaf0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    #app {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+    }
+    .ui {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: rgba(10, 12, 20, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 10px 12px;
+      backdrop-filter: blur(4px);
+      z-index: 10;
+      max-width: 360px;
+    }
+    .ui h3 {
+      margin: 4px 0 8px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 4px 0;
+      font-size: 13px;
+    }
+    .row label {
+      width: 140px;
+      opacity: 0.85;
+    }
+    .row input[type="range"] {
+      width: 170px;
+    }
+    .row input[type="number"] {
+      width: 80px;
+      background: #0f1220;
+      border: 1px solid #2a2d3a;
+      color: #eaeaf0;
+      border-radius: 6px;
+      padding: 4px 6px;
+    }
+    button {
+      background: #2a57ff;
+      border: none;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:active {
+      transform: translateY(1px);
+    }
+    .hint {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
 
-    <div class="ui" id="ui">
-      <h3>Pokémon Night Sky</h3>
-      <div class="row">
-        <label>Pokémon count</label>
-        <input id="count" type="range" min="0" max="30" value="16" />
-        <span id="countV">16</span>
-      </div>
-      <div class="row">
-        <label>FOV (deg)</label>
-        <input id="fov" type="range" min="20" max="100" value="55" />
-        <span id="fovV">55</span>
-      </div>
-      <div class="row">
-        <label>Sprite opacity</label>
-        <input id="opacity" type="range" min="50" max="100" value="88" />
-        <span id="opacityV">0.88</span>
-      </div>
-      <div class="row">
-        <label>Glow strength</label>
-        <input id="glow" type="range" min="2" max="24" value="12" />
-        <span id="glowV">12</span>
-      </div>
-      <div class="row">
-        <label>Random seed</label>
-        <input id="seed" type="number" placeholder="None" />
-        <button id="randomize">Randomize</button>
-      </div>
-      <div class="row">
-        <button id="recenter">Recenter</button>
-        <span class="hint">Drag to pan, wheel/pinch to zoom</span>
-      </div>
-      <div class="hint">
-        GitHub Pages-friendly. Data: HYG (subset), micro-constellations,
-        Pokémon sprites via PokeAPI CDN.
-      </div>
+  <div class="ui" id="ui">
+    <h3>Pokémon Night Sky</h3>
+    <div class="row">
+      <label>Pokémon count</label>
+      <input id="count" type="range" min="0" max="30" value="16" />
+      <span id="countV">16</span>
     </div>
+    <div class="row">
+      <label>FOV (deg)</label>
+      <input id="fov" type="range" min="20" max="100" value="55" />
+      <span id="fovV">55</span>
+    </div>
+    <div class="row">
+      <label>Sprite opacity</label>
+      <input id="opacity" type="range" min="50" max="100" value="88" />
+      <span id="opacityV">0.88</span>
+    </div>
+    <div class="row">
+      <label>Glow strength</label>
+      <input id="glow" type="range" min="2" max="24" value="12" />
+      <span id="glowV">12</span>
+    </div>
+    <div class="row">
+      <label>Random seed</label>
+      <input id="seed" type="number" placeholder="None" />
+      <button id="randomize">Randomize</button>
+    </div>
+    <div class="row">
+      <button id="recenter">Recenter</button>
+      <span class="hint">Drag to pan, wheel/pinch to zoom</span>
+    </div>
+    <div class="hint">
+      Data: HYG (subset), micro-constellations, Pokémon sprites via PokeAPI CDN.
+    </div>
+  </div>
 
-    <script type="module">
-      // Prettier: printWidth 80
-      const DATA = {
-        hyg: "data/hyg.min.json",
-        asterisms: "data/asterisms.min.json",
-        pokemon: "data/pokemon_min.json",
-      };
+  <script type="module">
+    import * as PIXI from "https://cdn.jsdelivr.net/npm/pixi.js@7.4.0/dist/pixi.min.mjs";
+    import { GlowFilter } from "https://cdn.jsdelivr.net/npm/pixi-filters@6.0.5/dist/filters.mjs";
 
-      // Type colors (RGB)
-      const TYPE_COLORS = {
-        normal: [255, 255, 255],
-        fire: [255, 100, 50],
-        water: [80, 150, 255],
-        electric: [255, 255, 100],
-        grass: [100, 255, 100],
-        ice: [150, 255, 255],
-        fighting: [200, 80, 50],
-        poison: [180, 100, 255],
-        ground: [210, 180, 100],
-        flying: [180, 200, 255],
-        psychic: [255, 100, 200],
-        bug: [170, 255, 100],
-        rock: [200, 180, 140],
-        ghost: [150, 100, 200],
-        dragon: [100, 150, 255],
-        dark: [120, 120, 140],
-        steel: [180, 180, 200],
-        fairy: [255, 180, 255],
-      };
+    window.PIXI = PIXI;
+    window.GlowFilter = GlowFilter;
 
-      // App/state
-      const app = new PIXI.Application({
-        resizeTo: document.getElementById("app"),
-        backgroundAlpha: 1,
-        backgroundColor: 0x080a12,
-        antialias: true,
-      });
-      document.getElementById("app").appendChild(app.view);
+    // ---------------------------
+    // FULL APP LOGIC MERGED HERE
+    // ---------------------------
 
-      const scene = new PIXI.Container();
-      app.stage.addChild(scene);
+    const DATA = {
+      hyg: "data/hyg.min.json",
+      asterisms: "data/asterisms.min.json",
+      pokemon: "data/pokemon_min.json",
+    };
 
-      const starLayer = new PIXI.ParticleContainer(120000, {
-        position: true,
-        scale: true,
-        alpha: true,
-        tint: false,
-      });
-      const overlayLayer = new PIXI.Container(); // Pokémon overlays
-      scene.addChild(starLayer);
-      scene.addChild(overlayLayer);
+    const TYPE_COLORS = {
+      normal: [255, 255, 255],
+      fire: [255, 100, 50],
+      water: [80, 150, 255],
+      electric: [255, 255, 100],
+      grass: [100, 255, 100],
+      ice: [150, 255, 255],
+      fighting: [200, 80, 50],
+      poison: [180, 100, 255],
+      ground: [210, 180, 100],
+      flying: [180, 200, 255],
+      psychic: [255, 100, 200],
+      bug: [170, 255, 100],
+      rock: [200, 180, 140],
+      ghost: [150, 100, 200],
+      dragon: [100, 150, 255],
+      dark: [120, 120, 140],
+      steel: [180, 180, 200],
+      fairy: [255, 180, 255],
+    };
 
-      // UI elements
-      const ui = {
-        count: document.getElementById("count"),
-        countV: document.getElementById("countV"),
-        fov: document.getElementById("fov"),
-        fovV: document.getElementById("fovV"),
-        opacity: document.getElementById("opacity"),
-        opacityV: document.getElementById("opacityV"),
-        glow: document.getElementById("glow"),
-        glowV: document.getElementById("glowV"),
-        seed: document.getElementById("seed"),
-        randomize: document.getElementById("randomize"),
-        recenter: document.getElementById("recenter"),
-      };
+    const app = new PIXI.Application({
+      resizeTo: document.getElementById("app"),
+      backgroundAlpha: 1,
+      backgroundColor: 0x080a12,
+      antialias: true,
+    });
+    document.getElementById("app").appendChild(app.view);
 
-      // Info text overlay
-      const infoText = new PIXI.Text("", {
-        fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-        fontSize: 13,
-        fill: 0xececf2,
-        dropShadow: true,
-        dropShadowAlpha: 0.35,
-        dropShadowDistance: 1,
-      });
-      infoText.x = 16;
-      infoText.y = app.renderer.height - 110;
-      app.stage.addChild(infoText);
+    const scene = new PIXI.Container();
+    app.stage.addChild(scene);
 
-      // Star texture (small circle)
-      const starG = new PIXI.Graphics()
-        .beginFill(0xffffff)
-        .drawCircle(4, 4, 4)
-        .endFill();
-      const starTexture = app.renderer.generateTexture(starG);
+    const starLayer = new PIXI.ParticleContainer(120000, {
+      position: true,
+      scale: true,
+      alpha: true,
+      tint: false,
+    });
+    const overlayLayer = new PIXI.Container();
+    scene.addChild(starLayer);
+    scene.addChild(overlayLayer);
 
-      // Data holders
-      let HYG = [];
-      let AST = [];
-      let PKMN = [];
+    const infoText = new PIXI.Text("", {
+      fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+      fontSize: 13,
+      fill: 0xececf2,
+      dropShadow: true,
+      dropShadowAlpha: 0.35,
+      dropShadowDistance: 1,
+    });
+    infoText.x = 16;
+    app.stage.addChild(infoText);
 
-      // View state
-      const state = {
-        ra0: Math.random() * 360,
-        dec0: Math.random() * 100 - 50,
-        fov: Number(ui.fov.value), // deg horizontally
-        seed: null,
-        pokemonCount: Number(ui.count.value),
-        spriteOpacity: Number(ui.opacity.value) / 100,
-        spriteGlowRadius: Number(ui.glow.value),
-        overlays: [],
-        dragging: false,
-        dragStart: null,
-      };
+    const starG = new PIXI.Graphics()
+      .beginFill(0xffffff)
+      .drawCircle(4, 4, 4)
+      .endFill();
+    const starTexture = app.renderer.generateTexture(starG);
 
-      // Helpers
-      function hmsFromDeg(raDeg) {
-        const h = raDeg / 15;
-        const H = Math.floor(h);
-        const M = Math.floor((h - H) * 60);
-        const S = ((h - H) * 60 - M) * 60;
-        return `${String(H).padStart(2, "0")}h ${String(M).padStart(
-          2,
-          "0"
-        )}m ${S.toFixed(1)}s`;
+    let HYG = [];
+    let AST = [];
+    let PKMN = [];
+
+    const state = {
+      ra0: Math.random() * 360,
+      dec0: Math.random() * 100 - 50,
+      fov: 55,
+      pokemonCount: 16,
+      spriteOpacity: 0.88,
+      spriteGlowRadius: 12,
+      overlays: [],
+      dragging: false,
+      dragStart: null,
+    };
+
+    function hmsFromDeg(raDeg) {
+      const h = raDeg / 15;
+      const H = Math.floor(h);
+      const M = Math.floor((h - H) * 60);
+      const S = ((h - H) * 60 - M) * 60;
+      return `${String(H).padStart(2, "0")}h ${String(M).padStart(2, "0")}m ${S.toFixed(1)}s`;
+    }
+    function dmsFromDeg(decDeg) {
+      const sign = decDeg >= 0 ? "+" : "-";
+      const d = Math.abs(decDeg);
+      const D = Math.floor(d);
+      const M = Math.floor((d - D) * 60);
+      const S = ((d - D) * 60 - M) * 60;
+      return `${sign}${String(D).padStart(2, "0")}° ${String(M).padStart(2, "0")}' ${S.toFixed(1)}"`;
+    }
+
+    function gnomonic(raDeg, decDeg, ra0, dec0) {
+      const ra = (raDeg * Math.PI) / 180;
+      const dec = (decDeg * Math.PI) / 180;
+      const RA0 = (ra0 * Math.PI) / 180;
+      const DEC0 = (dec0 * Math.PI) / 180;
+      const sd = Math.sin(dec);
+      const cd = Math.cos(dec);
+      const sd0 = Math.sin(DEC0);
+      const cd0 = Math.cos(DEC0);
+      let dlon = ra - RA0;
+      dlon = ((dlon + Math.PI) % (2 * Math.PI)) - Math.PI;
+      const denom = sd0 * sd + cd0 * cd * Math.cos(dlon);
+      if (denom <= 1e-8) return [NaN, NaN, false];
+      const x = (cd * Math.sin(dlon)) / denom;
+      const y = (cd0 * sd - sd0 * cd * Math.cos(dlon)) / denom;
+      return [x, y, true];
+    }
+
+    function updateInfo(starCount) {
+      const lines = [
+        `Center RA: ${hmsFromDeg(state.ra0)}`,
+        `Center Dec: ${dmsFromDeg(state.dec0)}`,
+        `FOV: ${state.fov.toFixed(1)}°`,
+        `Stars drawn: ${starCount}`,
+        `Pokémon overlays: ${state.overlays.length}`,
+        `Time: ${new Date().toUTCString()}`,
+      ];
+      infoText.text = lines.join("\n");
+      infoText.y = app.renderer.height - 20 - infoText.height;
+    }
+
+    Promise.all([
+      fetch(DATA.hyg).then((r) => r.json()),
+      fetch(DATA.asterisms).then((r) => r.json()),
+      fetch(DATA.pokemon).then((r) => r.json()),
+    ]).then(([hyg, ast, pkmn]) => {
+      HYG = hyg;
+      AST = ast;
+      PKMN = pkmn;
+      drawStars();
+      spawnOverlays(true);
+      app.ticker.add(tick);
+    });
+
+    function drawStars() {
+      starLayer.removeChildren();
+      const W = app.renderer.width;
+      const H = app.renderer.height;
+      const halfW = Math.tan((state.fov * Math.PI) / 180 / 2);
+      const halfH = Math.atan(Math.tan((state.fov * Math.PI) / 180 / 2) * (H / W));
+      const halfHtan = Math.tan(halfH);
+      const starsToDraw = [];
+      for (let s of HYG) {
+        const [x, y, ok] = gnomonic(s.ra_deg, s.dec_deg, state.ra0, state.dec0);
+        if (!ok) continue;
+        if (Math.abs(x) > halfW || Math.abs(y) > halfHtan) continue;
+        const px = ((x / halfW) + 1) * 0.5 * W;
+        const py = ((-y / halfHtan) + 1) * 0.5 * H;
+        const mag = s.mag;
+        const r = Math.max(0.6, Math.min(2.5, 3.0 - 0.5 * (mag - 1.0)));
+        const a = Math.max(0.15, Math.min(0.85, 1.1 - (mag + 1) * 0.12));
+        starsToDraw.push({ px, py, r, a });
       }
-      function dmsFromDeg(decDeg) {
-        const sign = decDeg >= 0 ? "+" : "-";
-        const d = Math.abs(decDeg);
-        const D = Math.floor(d);
-        const M = Math.floor((d - D) * 60);
-        const S = ((d - D) * 60 - M) * 60;
-        return `${sign}${String(D).padStart(2, "0")}° ${String(M).padStart(
-          2,
-          "0"
-        )}' ${S.toFixed(1)}"`;
-      }
-
-      function gnomonic(raDeg, decDeg, ra0, dec0) {
-        const ra = (raDeg * Math.PI) / 180;
-        const dec = (decDeg * Math.PI) / 180;
-        const RA0 = (ra0 * Math.PI) / 180;
-        const DEC0 = (dec0 * Math.PI) / 180;
-
-        const sd = Math.sin(dec);
-        const cd = Math.cos(dec);
-        const sd0 = Math.sin(DEC0);
-        const cd0 = Math.cos(DEC0);
-        let dlon = ra - RA0;
-        // wrap to [-pi, pi]
-        dlon = ((dlon + Math.PI) % (2 * Math.PI)) - Math.PI;
-
-        const denom = sd0 * sd + cd0 * cd * Math.cos(dlon);
-        if (denom <= 1e-8) return [NaN, NaN, false];
-
-        const x = (cd * Math.sin(dlon)) / denom;
-        const y = (cd0 * sd - sd0 * cd * Math.cos(dlon)) / denom;
-        return [x, y, true];
-      }
-
-      function updateInfo(starCount) {
-        const lines = [
-          `Center RA: ${hmsFromDeg(state.ra0)}`,
-          `Center Dec: ${dmsFromDeg(state.dec0)}`,
-          `FOV: ${state.fov.toFixed(1)}°`,
-          `Stars drawn: ${starCount}`,
-          `Pokémon overlays: ${state.overlays.length}`,
-          `Time: ${new Date().toUTCString()}`,
-          `Controls: drag to pan, wheel to zoom`,
-        ];
-        infoText.text = lines.join("\n");
-        infoText.y = app.renderer.height - 20 - infoText.height;
-      }
-
-      // Load all data then init
-      Promise.all([
-        fetch(DATA.hyg).then((r) => r.json()),
-        fetch(DATA.asterisms).then((r) => r.json()),
-        fetch(DATA.pokemon).then((r) => r.json()),
-      ]).then(([hyg, ast, pkmn]) => {
-        HYG = hyg;
-        AST = ast;
-        PKMN = pkmn;
-        init();
-      });
-
-      function init() {
-        bindUI();
-        drawStars();
-        spawnOverlays(true);
-        app.ticker.add(tick);
-        window.addEventListener("resize", () => {
-          drawStars(); // recompute projection
-          updateInfo(lastStarDrawn);
-        });
-        // input handlers
-        const view = app.view;
-        view.addEventListener("mousedown", onDown);
-        view.addEventListener("mousemove", onMove);
-        window.addEventListener("mouseup", onUp);
-        view.addEventListener("wheel", onWheel, { passive: false });
-        view.addEventListener("touchstart", onTouchStart, { passive: false });
-        view.addEventListener("touchmove", onTouchMove, { passive: false });
-        view.addEventListener("touchend", onTouchEnd, { passive: false });
-      }
-
-      // UI bindings
-      function bindUI() {
-        ui.count.oninput = () => {
-          ui.countV.textContent = ui.count.value;
-          state.pokemonCount = Number(ui.count.value);
-          spawnOverlays(false);
-        };
-        ui.fov.oninput = () => {
-          ui.fovV.textContent = ui.fov.value;
-          state.fov = Number(ui.fov.value);
-          drawStars();
-          spawnOverlays(false);
-        };
-        ui.opacity.oninput = () => {
-          state.spriteOpacity = Number(ui.opacity.value) / 100;
-          ui.opacityV.textContent = state.spriteOpacity.toFixed(2);
-          // apply to existing overlays target alpha
-          state.overlays.forEach((o) => (o.targetSpriteAlpha = 0.6));
-        };
-        ui.glow.oninput = () => {
-          state.spriteGlowRadius = Number(ui.glow.value);
-          ui.glowV.textContent = ui.glow.value;
-          // update glow strength
-          state.overlays.forEach((o) => {
-            if (o.glow) o.glow.distance = state.spriteGlowRadius;
-            if (o.constGlow) o.constGlow.distance = 0.6 * state.spriteGlowRadius;
-          });
-        };
-        ui.randomize.onclick = () => {
-          const seed = ui.seed.value
-            ? Number(ui.seed.value)
-            : Math.floor(Math.random() * 1e9);
-          ui.seed.value = seed;
-          const rng = mulberry32(seed);
-          state.ra0 = rng() * 360;
-          state.dec0 = rng() * 100 - 50;
-          drawStars();
-          spawnOverlays(true);
-        };
-        ui.recenter.onclick = () => {
-          drawStars();
-          spawnOverlays(true);
-        };
-        // init labels
-        ui.countV.textContent = ui.count.value;
-        ui.fovV.textContent = ui.fov.value;
-        ui.opacityV.textContent = (Number(ui.opacity.value) / 100).toFixed(2);
-        ui.glowV.textContent = ui.glow.value;
-      }
-
-      // RNG helper
-      function mulberry32(a) {
-        return function () {
-          let t = (a += 0x6d2b79f5);
-          t = Math.imul(t ^ (t >>> 15), t | 1);
-          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-        };
-      }
-
-      // Draw stars (project + particles)
-      let lastStarDrawn = 0;
-      function drawStars() {
-        starLayer.removeChildren();
-        const W = app.renderer.width;
-        const H = app.renderer.height;
-        const halfW = Math.tan((state.fov * Math.PI) / 180 / 2);
-        const halfH = Math.atan(Math.tan((state.fov * Math.PI) / 180 / 2) * (H / W));
-        const halfHtan = Math.tan(halfH);
-
-        const starsToDraw = [];
-        for (let i = 0; i < HYG.length; i++) {
-          const s = HYG[i];
-          const [x, y, ok] = gnomonic(s.ra_deg, s.dec_deg, state.ra0, state.dec0);
-          if (!ok) continue;
-          if (Math.abs(x) > halfW || Math.abs(y) > halfHtan) continue;
-
-          const px = ((x / halfW) + 1) * 0.5 * W;
-          const py = ((-y / halfHtan) + 1) * 0.5 * H;
-
-          // Size and alpha by mag
-          const mag = s.mag;
-          const r = Math.max(0.6, Math.min(2.5, 3.0 - 0.5 * (mag - 1.0)));
-          const a = Math.max(0.15, Math.min(0.85, 1.1 - (mag + 1) * 0.12));
-
-          starsToDraw.push({ px, py, r, a });
-        }
-
-        lastStarDrawn = starsToDraw.length;
-        updateInfo(lastStarDrawn);
-
-        // Create sprites
-        for (let i = 0; i < starsToDraw.length; i++) {
-          const st = new PIXI.Sprite(starTexture);
-          st.x = starsToDraw[i].px;
-          st.y = starsToDraw[i].py;
-          st.anchor.set(0.5);
-          st.alpha = starsToDraw[i].a;
-          const s = (starsToDraw[i].r * 2) / 8; // base texture 8px radius
-          st.scale.set(s, s);
-          starLayer.addChild(st);
-        }
-      }
-
-      // Pick asterisms in view
-      function pickAsterismsInView(limit) {
-        const W = app.renderer.width;
-        const H = app.renderer.height;
-        const halfW = Math.tan((state.fov * Math.PI) / 180 / 2);
-        const halfH = Math.atan(Math.tan((state.fov * Math.PI) / 180 / 2) * (H / W));
-        const halfHtan = Math.tan(halfH);
-        const picks = [];
-        for (let i = 0; i < AST.length; i++) {
-          const r = AST[i];
-          const [x, y, ok] = gnomonic(
-            r.ra_deg_center,
-            r.dec_deg_center,
-            state.ra0,
-            state.dec0
-          );
-          if (!ok) continue;
-          if (Math.abs(x) > halfW || Math.abs(y) > halfHtan) continue;
-          const px = ((x / halfW) + 1) * 0.5 * W;
-          const py = ((-y / halfHtan) + 1) * 0.5 * H;
-          picks.push({ rec: r, px, py });
-        }
-        // shuffle and slice
-        for (let i = picks.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [picks[i], picks[j]] = [picks[j], picks[i]];
-        }
-        return picks.slice(0, limit);
-      }
-
-      function pickRandomPokemon(n) {
-        const out = [];
-        for (let i = 0; i < n; i++) {
-          const idx = Math.floor(Math.random() * PKMN.length);
-          out.push(PKMN[idx]);
-        }
-        return out;
-      }
-
-      function rgbToHex(rgb) {
-        const [r, g, b] = rgb;
-        return (r << 16) + (g << 8) + b;
-      }
-
-      // Build a single overlay container
-      async function buildOverlay(pick, info, size) {
-        // Load sprite
-        const sprite = await PIXI.Assets.load(info.sprite);
-        const cont = new PIXI.Container();
-        cont.x = pick.px;
-        cont.y = pick.py;
-        cont.alpha = 0.0; // fade in
-
-        // Sprite
-        const spr = new PIXI.Sprite(sprite);
+      updateInfo(starsToDraw.length);
+      for (let st of starsToDraw) {
+        const spr = new PIXI.Sprite(starTexture);
+        spr.x = st.px;
+        spr.y = st.py;
         spr.anchor.set(0.5);
-        const scale = size / Math.max(sprite.width, sprite.height);
-        spr.scale.set(scale);
-        spr.alpha = state.spriteOpacity;
-
-        // Soft outer glow on sprite
-        const pType = (info.types && info.types[0]) || "normal";
-        const glowRGB = TYPE_COLORS[pType] || [255, 223, 128];
-        const glow = new PIXI.filters.GlowFilter({
-          distance: state.spriteGlowRadius,
-          outerStrength: 2,
-          innerStrength: 0,
-          color: rgbToHex(glowRGB),
-          quality: 0.5,
-        });
-        spr.filters = [glow];
-
-        // Constellation graphics scaled to sprite bbox
-        const bboxW = sprite.width * scale * 0.75;
-        const bboxH = sprite.height * scale * 0.75;
-
-        const pts = pick.rec.pts;
-        let minx = 1e9,
-          maxx = -1e9,
-          miny = 1e9,
-          maxy = -1e9;
-        for (const p of pts) {
-          minx = Math.min(minx, p[0]);
-          maxx = Math.max(maxx, p[0]);
-          miny = Math.min(miny, p[1]);
-          maxy = Math.max(maxy, p[1]);
-        }
-        const cw = maxx - minx;
-        const ch = maxy - miny;
-        const cScale = Math.min(bboxW / cw, bboxH / ch) * 0.8;
-
-        const g = new PIXI.Graphics();
-        g.lineStyle(1.2, rgbToHex(glowRGB), 0.9);
-        // edges
-        for (const e of pick.rec.edges) {
-          const a = pts[e[0]];
-          const b = pts[e[1]];
-          const ax =
-            (a[0] - (minx + maxx) / 2) * cScale + 0; // centered around 0
-          const ay = (a[1] - (miny + maxy) / 2) * cScale + 0;
-          const bx = (b[0] - (minx + maxx) / 2) * cScale + 0;
-          const by = (b[1] - (miny + maxy) / 2) * cScale + 0;
-          g.moveTo(ax, ay);
-          g.lineTo(bx, by);
-        }
-        // stars
-        for (const p of pts) {
-          const x = (p[0] - (minx + maxx) / 2) * cScale;
-          const y = (p[1] - (miny + maxy) / 2) * cScale;
-          g.beginFill(rgbToHex(glowRGB), 1.0);
-          g.drawCircle(x, y, 2.2);
-          g.endFill();
-        }
-        // place graphic above sprite center
-        g.x = 0;
-        g.y = 0;
-
-        const constGlow = new PIXI.filters.GlowFilter({
-          distance: 0.6 * state.spriteGlowRadius,
-          outerStrength: 2.0,
-          innerStrength: 0,
-          color: rgbToHex(glowRGB),
-          quality: 0.5,
-        });
-        g.filters = [constGlow];
-
-        cont.addChild(spr);
-        cont.addChild(g);
-
-        // store refs for live updates
-        cont._meta = {
-          spr,
-          glow,
-          constGlow,
-          targetAlpha: 1.0,
-          t: 0.0,
-        };
-        return cont;
+        spr.alpha = st.a;
+        const s = (st.r * 2) / 8;
+        spr.scale.set(s, s);
+        starLayer.addChild(spr);
       }
+    }
 
-      // Spawn overlays
-      let overlayBusy = false;
-      async function spawnOverlays(clearFirst) {
-        if (overlayBusy) return;
-        overlayBusy = true;
-        if (clearFirst) {
-          overlayLayer.removeChildren();
-          state.overlays = [];
-        }
-        const picks = pickAsterismsInView(state.pokemonCount);
-        const pokes = pickRandomPokemon(picks.length);
+    function pickAsterismsInView(limit) {
+      const W = app.renderer.width;
+      const H = app.renderer.height;
+      const halfW = Math.tan((state.fov * Math.PI) / 180 / 2);
+      const halfH = Math.atan(Math.tan((state.fov * Math.PI) / 180 / 2) * (H / W));
+      const halfHtan = Math.tan(halfH);
+      const picks = [];
+      for (let r of AST) {
+        const [x, y, ok] = gnomonic(r.ra_deg_center, r.dec_deg_center, state.ra0, state.dec0);
+        if (!ok) continue;
+        if (Math.abs(x) > halfW || Math.abs(y) > halfHtan) continue;
+        const px = ((x / halfW) + 1) * 0.5 * W;
+        const py = ((-y / halfHtan) + 1) * 0.5 * H;
+        picks.push({ rec: r, px, py });
+      }
+      return picks.sort(() => Math.random() - 0.5).slice(0, limit);
+    }
 
-        for (let i = 0; i < picks.length; i++) {
-          const size = 180 + Math.random() * 80;
-          const cont = await buildOverlay(picks[i], pokes[i], size);
-          overlayLayer.addChild(cont);
-          state.overlays.push(cont);
-        }
-        overlayBusy = false;
-      }
+    function pickRandomPokemon(n) {
+      return Array.from({ length: n }, () => PKMN[Math.floor(Math.random() * PKMN.length)]);
+    }
 
-      // Pan/zoom
-      function onDown(e) {
-        state.dragging = true;
-        state.dragStart = { x: e.clientX, y: e.clientY, ra0: state.ra0, dec0: state.dec0 };
-      }
-      function onMove(e) {
-        if (!state.dragging) return;
-        const dx = e.clientX - state.dragStart.x;
-        const dy = e.clientY - state.dragStart.y;
-        const W = app.renderer.width;
-        const H = app.renderer.height;
-        const rw = Math.tan((state.fov * Math.PI) / 180 / 2);
-        const rh = Math.atan(Math.tan((state.fov * Math.PI) / 180 / 2) * (H / W));
-        const scaleX = (2 * rw) / W;
-        const scaleY = (2 * Math.tan(rh)) / H;
+    async function buildOverlay(pick, info, size) {
+      const sprite = await PIXI.Assets.load(info.sprite);
+      const cont = new PIXI.Container();
+      cont.x = pick.px;
+      cont.y = pick.py;
+      cont.alpha = 0.0;
+      const spr = new PIXI.Sprite(sprite);
+      spr.anchor.set(0.5);
+      const scale = size / Math.max(sprite.width, sprite.height);
+      spr.scale.set(scale);
+      spr.alpha = state.spriteOpacity;
+      const pType = (info.types && info.types[0]) || "normal";
+      const glowRGB = TYPE_COLORS[pType] || [255, 223, 128];
+      const glow = new GlowFilter({
+        distance: state.spriteGlowRadius,
+        outerStrength: 2,
+        innerStrength: 0,
+        color: (glowRGB[0] << 16) + (glowRGB[1] << 8) + glowRGB[2],
+        quality: 0.5,
+      });
+      spr.filters = [glow];
+      cont.addChild(spr);
+      cont._meta = { spr, glow, targetAlpha: 1.0 };
+      return cont;
+    }
 
-        // Approximate pan sensitivity
-        state.ra0 =
-          (state.dragStart.ra0 - (dx * scaleX * 180) / Math.PI + 360) % 360;
-        state.dec0 = Math.max(
-          -89,
-          Math.min(89, state.dragStart.dec0 + (dy * scaleY * 180) / Math.PI)
-        );
+    async function spawnOverlays(clearFirst) {
+      if (clearFirst) {
+        overlayLayer.removeChildren();
+        state.overlays = [];
+      }
+      const picks = pickAsterismsInView(state.pokemonCount);
+      const pokes = pickRandomPokemon(picks.length);
+      for (let i = 0; i < picks.length; i++) {
+        const size = 180 + Math.random() * 80;
+        const cont = await buildOverlay(picks[i], pokes[i], size);
+        overlayLayer.addChild(cont);
+        state.overlays.push(cont);
+      }
+    }
 
-        drawStars();
-        // fade out old, spawn new
-        softRefreshOverlays();
+    function tick(dt) {
+      for (let c of state.overlays) {
+        c.alpha += (c._meta.targetAlpha - c.alpha) * 0.08 * dt;
+        c._meta.spr.alpha = state.spriteOpacity;
+        c._meta.glow.distance = state.spriteGlowRadius;
       }
-      function onUp() {
-        state.dragging = false;
-      }
-      function onWheel(e) {
-        e.preventDefault();
-        const delta = Math.sign(e.deltaY);
-        state.fov = Math.max(20, Math.min(100, state.fov + delta * 3));
-        ui.fov.value = String(Math.round(state.fov));
-        ui.fovV.textContent = String(Math.round(state.fov));
-        drawStars();
-        softRefreshOverlays();
-      }
+    }
 
-      // Touch (simple: treat single finger as mouse)
-      function onTouchStart(ev) {
-        if (ev.touches.length === 1) {
-          const t = ev.touches[0];
-          onDown({ clientX: t.clientX, clientY: t.clientY });
-        }
-      }
-      function onTouchMove(ev) {
-        if (ev.touches.length === 1) {
-          const t = ev.touches[0];
-          onMove({ clientX: t.clientX, clientY: t.clientY });
-        }
-      }
-      function onTouchEnd() {
-        onUp();
-      }
-
-      // When view changes, softly fade out current overlays and respawn
-      function softRefreshOverlays() {
-        // fade all overlays to 0 and then respawn
-        state.overlays.forEach((c) => (c._meta.targetAlpha = 0.0));
-        setTimeout(() => spawnOverlays(true), 350);
-      }
-
-      // Per-frame tick: fade animations
-      function tick(dt) {
-        for (const c of state.overlays) {
-          const m = c._meta;
-          // fade towards target alpha
-          c.alpha += (m.targetAlpha - c.alpha) * 0.08 * dt;
-          // keep sprite opacity
-          if (m.spr) m.spr.alpha = state.spriteOpacity;
-          // update glow distance live
-          if (m.glow) m.glow.distance = state.spriteGlowRadius;
-          if (m.constGlow)
-            m.constGlow.distance = 0.6 * state.spriteGlowRadius;
-        }
-      }
-    </script>
-  </body>
+    // Simple mouse pan/zoom
+    app.view.addEventListener("mousedown", (e) => {
+      state.dragging = true;
+      state.dragStart = { x: e.clientX, y: e.clientY, ra0: state.ra0, dec0: state.dec0 };
+    });
+    app.view.addEventListener("mousemove", (e) => {
+      if (!state.dragging) return;
+      const dx = e.clientX - state.dragStart.x;
+      const dy = e.clientY - state.dragStart.y;
+      const W = app.renderer.width;
+      const H = app.renderer.height;
+      const rw = Math.tan((state.fov * Math.PI) / 180 / 2);
+      const rh = Math.atan(Math.tan((state.fov * Math.PI) / 180 / 2) * (H / W));
+      const scaleX = (2 * rw) / W;
+      const scaleY = (2 * Math.tan(rh)) / H;
+      state.ra0 = (state.dragStart.ra0 - (dx * scaleX * 180) / Math.PI + 360) % 360;
+      state.dec0 = Math.max(-89, Math.min(89, state.dragStart.dec0 + (dy * scaleY * 180) / Math.PI));
+      drawStars();
+    });
+    window.addEventListener("mouseup", () => { state.dragging = false; });
+    app.view.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const delta = Math.sign(e.deltaY);
+      state.fov = Math.max(20, Math.min(100, state.fov + delta * 3));
+      drawStars();
+    });
+  </script>
+</body>
 </html>
