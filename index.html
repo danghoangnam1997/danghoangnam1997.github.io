@@ -114,12 +114,14 @@
     </div>
   </div>
 
-  <script type="module">
-  import * as PIXI from "https://unpkg.com/pixi.js@7.4.0/dist/pixi.min.mjs";
-  import { GlowFilter } from "https://unpkg.com/pixi-filters@6.0.5/dist/filters.mjs";
+<script src="https://unpkg.com/pixi.js@7.4.0/dist/pixi.min.js"></script>
+<script src="https://unpkg.com/pixi-filters@6.0.5/dist/pixi-filters.min.js"></script>
+<script>
+  // Now PIXI and PIXI.filters.GlowFilter are available globally
+  const app = new PIXI.Application({ resizeTo: document.getElementById("app") });
+  document.getElementById("app").appendChild(app.view);
 
-  window.PIXI = PIXI;
-  window.GlowFilter = GlowFilter;
+  const glow = new PIXI.filters.GlowFilter({ distance: 12, outerStrength: 2, color: 0xffcc66 });
 
     // ---------------------------
     // FULL APP LOGIC MERGED HERE
