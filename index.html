@@ -1,75 +1,686 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- // 1. CORE METADATA -->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Favicon: Place your favicon.ico in the /public folder -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-
-    <!-- // 2. PRIMARY SEO & BROWSER TAB INFORMATION -->
-    <title>Jane Doe - Creative Developer & Designer</title>
-    <meta
-      name="description"
-      content="The portfolio of Jane Doe, a creative developer specializing in immersive WebGL experiences and interactive web design. Let's build something beautiful together."
-    />
-
-    <!-- // 3. OPEN GRAPH / FACEBOOK / LINKEDIN (SOCIAL SHARING) -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Jane Doe - The Digital Weaver Portfolio" />
-    <meta
-      property="og:description"
-      content="An interactive and immersive WebGL portfolio showcasing skills in React, Three.js, and modern web animation."
-    />
-    <!-- 
-      IMPORTANT: Create a high-quality preview image (1200x630px is ideal)
-      and place it in your /public folder. Then update the URL below.
-    -->
-    <meta property="og:image" content="https://your-live-url.com/og-image.jpg" />
-    <meta property="og:url" content="https://your-live-url.com" />
-
-    <!-- // 4. TWITTER CARD (SOCIAL SHARING) -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Jane Doe - The Digital Weaver Portfolio" />
-    <meta
-      name="twitter:description"
-      content="An interactive and immersive WebGL portfolio showcasing skills in React, Three.js, and modern web animation."
-    />
-    <!-- Make sure the path to your og-image is an absolute URL -->
-    <meta name="twitter:image" content="https://your-live-url.com/og-image.jpg" />
-
-    <!--
-      You can also link to your theme color for mobile browser UIs.
-      For example, on Chrome for Android.
-    -->
-    <meta name="theme-color" content="#050505" />
-
+    <meta charset="utf-8" />
+    <title>Pokémon Night Sky</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #080a12;
+        color: #eaeaf0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      }
+      #app {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+      }
+      .ui {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        background: rgba(10, 12, 20, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 10px 12px;
+        backdrop-filter: blur(4px);
+        z-index: 10;
+        max-width: 360px;
+      }
+      .ui h3 {
+        margin: 4px 0 8px;
+        font-size: 14px;
+        opacity: 0.9;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 4px 0;
+        font-size: 13px;
+      }
+      .row label {
+        width: 140px;
+        opacity: 0.85;
+      }
+      .row input[type="range"] {
+        width: 170px;
+      }
+      .row input[type="number"] {
+        width: 80px;
+        background: #0f1220;
+        border: 1px solid #2a2d3a;
+        color: #eaeaf0;
+        border-radius: 6px;
+        padding: 4px 6px;
+      }
+      button {
+        background: #2a57ff;
+        border: none;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      button:active {
+        transform: translateY(1px);
+      }
+      .kbd {
+        background: #0f1220;
+        border: 1px solid #2a2d3a;
+        border-radius: 4px;
+        padding: 1px 6px;
+        font-size: 12px;
+      }
+      .hint {
+        font-size: 12px;
+        opacity: 0.7;
+        margin-top: 6px;
+      }
+      a {
+        color: #8fb8ff;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+    <script
+      src="https://cdn.jsdelivr.net/npm/pixi.js@7.4.0/dist/browser/pixi.min.js"
+      integrity="sha256-8pX0pXrN+8V1kwoI4zY69kW9dc+GfV7dK0I5f3QkMoA="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/pixi-filters@6.0.5/dist/pixi-filters.min.js"
+      integrity="sha256-3o32y1l1h2wR7R8o7X0hHj3e7oS6mLr7mS1Xv2eT8Qg="
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
-    <!--
-      // THE REACT APP MOUNT POINT
-      This is the single most important element in the body.
-      Your entire React application will be rendered inside this div.
-      Do not change its id unless you also change it in `src/main.jsx`.
-    -->
-    <div id="root"></div>
+    <div id="app"></div>
 
-    <!--
-      // JAVASCRIPT ENTRY POINT
-      This script tag is how Vite loads and runs your application.
-      In development, it points to your source files.
-      In production, Vite replaces this with an optimized, bundled script.
-    -->
-    <script type="module" src="/src/main.jsx"></script>
+    <div class="ui" id="ui">
+      <h3>Pokémon Night Sky</h3>
+      <div class="row">
+        <label>Pokémon count</label>
+        <input id="count" type="range" min="0" max="30" value="16" />
+        <span id="countV">16</span>
+      </div>
+      <div class="row">
+        <label>FOV (deg)</label>
+        <input id="fov" type="range" min="20" max="100" value="55" />
+        <span id="fovV">55</span>
+      </div>
+      <div class="row">
+        <label>Sprite opacity</label>
+        <input id="opacity" type="range" min="50" max="100" value="88" />
+        <span id="opacityV">0.88</span>
+      </div>
+      <div class="row">
+        <label>Glow strength</label>
+        <input id="glow" type="range" min="2" max="24" value="12" />
+        <span id="glowV">12</span>
+      </div>
+      <div class="row">
+        <label>Random seed</label>
+        <input id="seed" type="number" placeholder="None" />
+        <button id="randomize">Randomize</button>
+      </div>
+      <div class="row">
+        <button id="recenter">Recenter</button>
+        <span class="hint">Drag to pan, wheel/pinch to zoom</span>
+      </div>
+      <div class="hint">
+        GitHub Pages-friendly. Data: HYG (subset), micro-constellations,
+        Pokémon sprites via PokeAPI CDN.
+      </div>
+    </div>
 
-    <!--
-      // ACCESSIBILITY FALLBACK
-      This message will be shown to users who have JavaScript disabled in their browser.
-      Since your entire site is a JavaScript application, this is crucial.
-    -->
-    <noscript>
-      This website requires JavaScript to be enabled. Please enable it to view this immersive portfolio experience.
-    </noscript>
+    <script type="module">
+      // Prettier: printWidth 80
+      const DATA = {
+        hyg: "data/hyg.min.json",
+        asterisms: "data/asterisms.min.json",
+        pokemon: "data/pokemon_min.json",
+      };
+
+      // Type colors (RGB)
+      const TYPE_COLORS = {
+        normal: [255, 255, 255],
+        fire: [255, 100, 50],
+        water: [80, 150, 255],
+        electric: [255, 255, 100],
+        grass: [100, 255, 100],
+        ice: [150, 255, 255],
+        fighting: [200, 80, 50],
+        poison: [180, 100, 255],
+        ground: [210, 180, 100],
+        flying: [180, 200, 255],
+        psychic: [255, 100, 200],
+        bug: [170, 255, 100],
+        rock: [200, 180, 140],
+        ghost: [150, 100, 200],
+        dragon: [100, 150, 255],
+        dark: [120, 120, 140],
+        steel: [180, 180, 200],
+        fairy: [255, 180, 255],
+      };
+
+      // App/state
+      const app = new PIXI.Application({
+        resizeTo: document.getElementById("app"),
+        backgroundAlpha: 1,
+        backgroundColor: 0x080a12,
+        antialias: true,
+      });
+      document.getElementById("app").appendChild(app.view);
+
+      const scene = new PIXI.Container();
+      app.stage.addChild(scene);
+
+      const starLayer = new PIXI.ParticleContainer(120000, {
+        position: true,
+        scale: true,
+        alpha: true,
+        tint: false,
+      });
+      const overlayLayer = new PIXI.Container(); // Pokémon overlays
+      scene.addChild(starLayer);
+      scene.addChild(overlayLayer);
+
+      // UI elements
+      const ui = {
+        count: document.getElementById("count"),
+        countV: document.getElementById("countV"),
+        fov: document.getElementById("fov"),
+        fovV: document.getElementById("fovV"),
+        opacity: document.getElementById("opacity"),
+        opacityV: document.getElementById("opacityV"),
+        glow: document.getElementById("glow"),
+        glowV: document.getElementById("glowV"),
+        seed: document.getElementById("seed"),
+        randomize: document.getElementById("randomize"),
+        recenter: document.getElementById("recenter"),
+      };
+
+      // Info text overlay
+      const infoText = new PIXI.Text("", {
+        fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+        fontSize: 13,
+        fill: 0xececf2,
+        dropShadow: true,
+        dropShadowAlpha: 0.35,
+        dropShadowDistance: 1,
+      });
+      infoText.x = 16;
+      infoText.y = app.renderer.height - 110;
+      app.stage.addChild(infoText);
+
+      // Star texture (small circle)
+      const starG = new PIXI.Graphics()
+        .beginFill(0xffffff)
+        .drawCircle(4, 4, 4)
+        .endFill();
+      const starTexture = app.renderer.generateTexture(starG);
+
+      // Data holders
+      let HYG = [];
+      let AST = [];
+      let PKMN = [];
+
+      // View state
+      const state = {
+        ra0: Math.random() * 360,
+        dec0: Math.random() * 100 - 50,
+        fov: Number(ui.fov.value), // deg horizontally
+        seed: null,
+        pokemonCount: Number(ui.count.value),
+        spriteOpacity: Number(ui.opacity.value) / 100,
+        spriteGlowRadius: Number(ui.glow.value),
+        overlays: [],
+        dragging: false,
+        dragStart: null,
+      };
+
+      // Helpers
+      function hmsFromDeg(raDeg) {
+        const h = raDeg / 15;
+        const H = Math.floor(h);
+        const M = Math.floor((h - H) * 60);
+        const S = ((h - H) * 60 - M) * 60;
+        return `${String(H).padStart(2, "0")}h ${String(M).padStart(
+          2,
+          "0"
+        )}m ${S.toFixed(1)}s`;
+      }
+      function dmsFromDeg(decDeg) {
+        const sign = decDeg >= 0 ? "+" : "-";
+        const d = Math.abs(decDeg);
+        const D = Math.floor(d);
+        const M = Math.floor((d - D) * 60);
+        const S = ((d - D) * 60 - M) * 60;
+        return `${sign}${String(D).padStart(2, "0")}° ${String(M).padStart(
+          2,
+          "0"
+        )}' ${S.toFixed(1)}"`;
+      }
+
+      function gnomonic(raDeg, decDeg, ra0, dec0) {
+        const ra = (raDeg * Math.PI) / 180;
+        const dec = (decDeg * Math.PI) / 180;
+        const RA0 = (ra0 * Math.PI) / 180;
+        const DEC0 = (dec0 * Math.PI) / 180;
+
+        const sd = Math.sin(dec);
+        const cd = Math.cos(dec);
+        const sd0 = Math.sin(DEC0);
+        const cd0 = Math.cos(DEC0);
+        let dlon = ra - RA0;
+        // wrap to [-pi, pi]
+        dlon = ((dlon + Math.PI) % (2 * Math.PI)) - Math.PI;
+
+        const denom = sd0 * sd + cd0 * cd * Math.cos(dlon);
+        if (denom <= 1e-8) return [NaN, NaN, false];
+
+        const x = (cd * Math.sin(dlon)) / denom;
+        const y = (cd0 * sd - sd0 * cd * Math.cos(dlon)) / denom;
+        return [x, y, true];
+      }
+
+      function updateInfo(starCount) {
+        const lines = [
+          `Center RA: ${hmsFromDeg(state.ra0)}`,
+          `Center Dec: ${dmsFromDeg(state.dec0)}`,
+          `FOV: ${state.fov.toFixed(1)}°`,
+          `Stars drawn: ${starCount}`,
+          `Pokémon overlays: ${state.overlays.length}`,
+          `Time: ${new Date().toUTCString()}`,
+          `Controls: drag to pan, wheel to zoom`,
+        ];
+        infoText.text = lines.join("\n");
+        infoText.y = app.renderer.height - 20 - infoText.height;
+      }
+
+      // Load all data then init
+      Promise.all([
+        fetch(DATA.hyg).then((r) => r.json()),
+        fetch(DATA.asterisms).then((r) => r.json()),
+        fetch(DATA.pokemon).then((r) => r.json()),
+      ]).then(([hyg, ast, pkmn]) => {
+        HYG = hyg;
+        AST = ast;
+        PKMN = pkmn;
+        init();
+      });
+
+      function init() {
+        bindUI();
+        drawStars();
+        spawnOverlays(true);
+        app.ticker.add(tick);
+        window.addEventListener("resize", () => {
+          drawStars(); // recompute projection
+          updateInfo(lastStarDrawn);
+        });
+        // input handlers
+        const view = app.view;
+        view.addEventListener("mousedown", onDown);
+        view.addEventListener("mousemove", onMove);
+        window.addEventListener("mouseup", onUp);
+        view.addEventListener("wheel", onWheel, { passive: false });
+        view.addEventListener("touchstart", onTouchStart, { passive: false });
+        view.addEventListener("touchmove", onTouchMove, { passive: false });
+        view.addEventListener("touchend", onTouchEnd, { passive: false });
+      }
+
+      // UI bindings
+      function bindUI() {
+        ui.count.oninput = () => {
+          ui.countV.textContent = ui.count.value;
+          state.pokemonCount = Number(ui.count.value);
+          spawnOverlays(false);
+        };
+        ui.fov.oninput = () => {
+          ui.fovV.textContent = ui.fov.value;
+          state.fov = Number(ui.fov.value);
+          drawStars();
+          spawnOverlays(false);
+        };
+        ui.opacity.oninput = () => {
+          state.spriteOpacity = Number(ui.opacity.value) / 100;
+          ui.opacityV.textContent = state.spriteOpacity.toFixed(2);
+          // apply to existing overlays target alpha
+          state.overlays.forEach((o) => (o.targetSpriteAlpha = 0.6));
+        };
+        ui.glow.oninput = () => {
+          state.spriteGlowRadius = Number(ui.glow.value);
+          ui.glowV.textContent = ui.glow.value;
+          // update glow strength
+          state.overlays.forEach((o) => {
+            if (o.glow) o.glow.distance = state.spriteGlowRadius;
+            if (o.constGlow) o.constGlow.distance = 0.6 * state.spriteGlowRadius;
+          });
+        };
+        ui.randomize.onclick = () => {
+          const seed = ui.seed.value
+            ? Number(ui.seed.value)
+            : Math.floor(Math.random() * 1e9);
+          ui.seed.value = seed;
+          const rng = mulberry32(seed);
+          state.ra0 = rng() * 360;
+          state.dec0 = rng() * 100 - 50;
+          drawStars();
+          spawnOverlays(true);
+        };
+        ui.recenter.onclick = () => {
+          drawStars();
+          spawnOverlays(true);
+        };
+        // init labels
+        ui.countV.textContent = ui.count.value;
+        ui.fovV.textContent = ui.fov.value;
+        ui.opacityV.textContent = (Number(ui.opacity.value) / 100).toFixed(2);
+        ui.glowV.textContent = ui.glow.value;
+      }
+
+      // RNG helper
+      function mulberry32(a) {
+        return function () {
+          let t = (a += 0x6d2b79f5);
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      // Draw stars (project + particles)
+      let lastStarDrawn = 0;
+      function drawStars() {
+        starLayer.removeChildren();
+        const W = app.renderer.width;
+        const H = app.renderer.height;
+        const halfW = Math.tan((state.fov * Math.PI) / 180 / 2);
+        const halfH = Math.atan(Math.tan((state.fov * Math.PI) / 180 / 2) * (H / W));
+        const halfHtan = Math.tan(halfH);
+
+        const starsToDraw = [];
+        for (let i = 0; i < HYG.length; i++) {
+          const s = HYG[i];
+          const [x, y, ok] = gnomonic(s.ra_deg, s.dec_deg, state.ra0, state.dec0);
+          if (!ok) continue;
+          if (Math.abs(x) > halfW || Math.abs(y) > halfHtan) continue;
+
+          const px = ((x / halfW) + 1) * 0.5 * W;
+          const py = ((-y / halfHtan) + 1) * 0.5 * H;
+
+          // Size and alpha by mag
+          const mag = s.mag;
+          const r = Math.max(0.6, Math.min(2.5, 3.0 - 0.5 * (mag - 1.0)));
+          const a = Math.max(0.15, Math.min(0.85, 1.1 - (mag + 1) * 0.12));
+
+          starsToDraw.push({ px, py, r, a });
+        }
+
+        lastStarDrawn = starsToDraw.length;
+        updateInfo(lastStarDrawn);
+
+        // Create sprites
+        for (let i = 0; i < starsToDraw.length; i++) {
+          const st = new PIXI.Sprite(starTexture);
+          st.x = starsToDraw[i].px;
+          st.y = starsToDraw[i].py;
+          st.anchor.set(0.5);
+          st.alpha = starsToDraw[i].a;
+          const s = (starsToDraw[i].r * 2) / 8; // base texture 8px radius
+          st.scale.set(s, s);
+          starLayer.addChild(st);
+        }
+      }
+
+      // Pick asterisms in view
+      function pickAsterismsInView(limit) {
+        const W = app.renderer.width;
+        const H = app.renderer.height;
+        const halfW = Math.tan((state.fov * Math.PI) / 180 / 2);
+        const halfH = Math.atan(Math.tan((state.fov * Math.PI) / 180 / 2) * (H / W));
+        const halfHtan = Math.tan(halfH);
+        const picks = [];
+        for (let i = 0; i < AST.length; i++) {
+          const r = AST[i];
+          const [x, y, ok] = gnomonic(
+            r.ra_deg_center,
+            r.dec_deg_center,
+            state.ra0,
+            state.dec0
+          );
+          if (!ok) continue;
+          if (Math.abs(x) > halfW || Math.abs(y) > halfHtan) continue;
+          const px = ((x / halfW) + 1) * 0.5 * W;
+          const py = ((-y / halfHtan) + 1) * 0.5 * H;
+          picks.push({ rec: r, px, py });
+        }
+        // shuffle and slice
+        for (let i = picks.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [picks[i], picks[j]] = [picks[j], picks[i]];
+        }
+        return picks.slice(0, limit);
+      }
+
+      function pickRandomPokemon(n) {
+        const out = [];
+        for (let i = 0; i < n; i++) {
+          const idx = Math.floor(Math.random() * PKMN.length);
+          out.push(PKMN[idx]);
+        }
+        return out;
+      }
+
+      function rgbToHex(rgb) {
+        const [r, g, b] = rgb;
+        return (r << 16) + (g << 8) + b;
+      }
+
+      // Build a single overlay container
+      async function buildOverlay(pick, info, size) {
+        // Load sprite
+        const sprite = await PIXI.Assets.load(info.sprite);
+        const cont = new PIXI.Container();
+        cont.x = pick.px;
+        cont.y = pick.py;
+        cont.alpha = 0.0; // fade in
+
+        // Sprite
+        const spr = new PIXI.Sprite(sprite);
+        spr.anchor.set(0.5);
+        const scale = size / Math.max(sprite.width, sprite.height);
+        spr.scale.set(scale);
+        spr.alpha = state.spriteOpacity;
+
+        // Soft outer glow on sprite
+        const pType = (info.types && info.types[0]) || "normal";
+        const glowRGB = TYPE_COLORS[pType] || [255, 223, 128];
+        const glow = new PIXI.filters.GlowFilter({
+          distance: state.spriteGlowRadius,
+          outerStrength: 2,
+          innerStrength: 0,
+          color: rgbToHex(glowRGB),
+          quality: 0.5,
+        });
+        spr.filters = [glow];
+
+        // Constellation graphics scaled to sprite bbox
+        const bboxW = sprite.width * scale * 0.75;
+        const bboxH = sprite.height * scale * 0.75;
+
+        const pts = pick.rec.pts;
+        let minx = 1e9,
+          maxx = -1e9,
+          miny = 1e9,
+          maxy = -1e9;
+        for (const p of pts) {
+          minx = Math.min(minx, p[0]);
+          maxx = Math.max(maxx, p[0]);
+          miny = Math.min(miny, p[1]);
+          maxy = Math.max(maxy, p[1]);
+        }
+        const cw = maxx - minx;
+        const ch = maxy - miny;
+        const cScale = Math.min(bboxW / cw, bboxH / ch) * 0.8;
+
+        const g = new PIXI.Graphics();
+        g.lineStyle(1.2, rgbToHex(glowRGB), 0.9);
+        // edges
+        for (const e of pick.rec.edges) {
+          const a = pts[e[0]];
+          const b = pts[e[1]];
+          const ax =
+            (a[0] - (minx + maxx) / 2) * cScale + 0; // centered around 0
+          const ay = (a[1] - (miny + maxy) / 2) * cScale + 0;
+          const bx = (b[0] - (minx + maxx) / 2) * cScale + 0;
+          const by = (b[1] - (miny + maxy) / 2) * cScale + 0;
+          g.moveTo(ax, ay);
+          g.lineTo(bx, by);
+        }
+        // stars
+        for (const p of pts) {
+          const x = (p[0] - (minx + maxx) / 2) * cScale;
+          const y = (p[1] - (miny + maxy) / 2) * cScale;
+          g.beginFill(rgbToHex(glowRGB), 1.0);
+          g.drawCircle(x, y, 2.2);
+          g.endFill();
+        }
+        // place graphic above sprite center
+        g.x = 0;
+        g.y = 0;
+
+        const constGlow = new PIXI.filters.GlowFilter({
+          distance: 0.6 * state.spriteGlowRadius,
+          outerStrength: 2.0,
+          innerStrength: 0,
+          color: rgbToHex(glowRGB),
+          quality: 0.5,
+        });
+        g.filters = [constGlow];
+
+        cont.addChild(spr);
+        cont.addChild(g);
+
+        // store refs for live updates
+        cont._meta = {
+          spr,
+          glow,
+          constGlow,
+          targetAlpha: 1.0,
+          t: 0.0,
+        };
+        return cont;
+      }
+
+      // Spawn overlays
+      let overlayBusy = false;
+      async function spawnOverlays(clearFirst) {
+        if (overlayBusy) return;
+        overlayBusy = true;
+        if (clearFirst) {
+          overlayLayer.removeChildren();
+          state.overlays = [];
+        }
+        const picks = pickAsterismsInView(state.pokemonCount);
+        const pokes = pickRandomPokemon(picks.length);
+
+        for (let i = 0; i < picks.length; i++) {
+          const size = 180 + Math.random() * 80;
+          const cont = await buildOverlay(picks[i], pokes[i], size);
+          overlayLayer.addChild(cont);
+          state.overlays.push(cont);
+        }
+        overlayBusy = false;
+      }
+
+      // Pan/zoom
+      function onDown(e) {
+        state.dragging = true;
+        state.dragStart = { x: e.clientX, y: e.clientY, ra0: state.ra0, dec0: state.dec0 };
+      }
+      function onMove(e) {
+        if (!state.dragging) return;
+        const dx = e.clientX - state.dragStart.x;
+        const dy = e.clientY - state.dragStart.y;
+        const W = app.renderer.width;
+        const H = app.renderer.height;
+        const rw = Math.tan((state.fov * Math.PI) / 180 / 2);
+        const rh = Math.atan(Math.tan((state.fov * Math.PI) / 180 / 2) * (H / W));
+        const scaleX = (2 * rw) / W;
+        const scaleY = (2 * Math.tan(rh)) / H;
+
+        // Approximate pan sensitivity
+        state.ra0 =
+          (state.dragStart.ra0 - (dx * scaleX * 180) / Math.PI + 360) % 360;
+        state.dec0 = Math.max(
+          -89,
+          Math.min(89, state.dragStart.dec0 + (dy * scaleY * 180) / Math.PI)
+        );
+
+        drawStars();
+        // fade out old, spawn new
+        softRefreshOverlays();
+      }
+      function onUp() {
+        state.dragging = false;
+      }
+      function onWheel(e) {
+        e.preventDefault();
+        const delta = Math.sign(e.deltaY);
+        state.fov = Math.max(20, Math.min(100, state.fov + delta * 3));
+        ui.fov.value = String(Math.round(state.fov));
+        ui.fovV.textContent = String(Math.round(state.fov));
+        drawStars();
+        softRefreshOverlays();
+      }
+
+      // Touch (simple: treat single finger as mouse)
+      function onTouchStart(ev) {
+        if (ev.touches.length === 1) {
+          const t = ev.touches[0];
+          onDown({ clientX: t.clientX, clientY: t.clientY });
+        }
+      }
+      function onTouchMove(ev) {
+        if (ev.touches.length === 1) {
+          const t = ev.touches[0];
+          onMove({ clientX: t.clientX, clientY: t.clientY });
+        }
+      }
+      function onTouchEnd() {
+        onUp();
+      }
+
+      // When view changes, softly fade out current overlays and respawn
+      function softRefreshOverlays() {
+        // fade all overlays to 0 and then respawn
+        state.overlays.forEach((c) => (c._meta.targetAlpha = 0.0));
+        setTimeout(() => spawnOverlays(true), 350);
+      }
+
+      // Per-frame tick: fade animations
+      function tick(dt) {
+        for (const c of state.overlays) {
+          const m = c._meta;
+          // fade towards target alpha
+          c.alpha += (m.targetAlpha - c.alpha) * 0.08 * dt;
+          // keep sprite opacity
+          if (m.spr) m.spr.alpha = state.spriteOpacity;
+          // update glow distance live
+          if (m.glow) m.glow.distance = state.spriteGlowRadius;
+          if (m.constGlow)
+            m.constGlow.distance = 0.6 * state.spriteGlowRadius;
+        }
+      }
+    </script>
   </body>
 </html>
