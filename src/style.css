@@ -49,9 +49,13 @@ h3,
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 2rem 3rem;
+    padding: 1.5rem 3rem;
     z-index: 100;
     mix-blend-mode: difference;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: padding 0.3s ease;
 }
 
 nav {
@@ -65,12 +69,15 @@ nav {
     font-size: 1.5rem;
     letter-spacing: 2px;
     color: var(--accent-color);
+    z-index: 102;
+    position: relative;
 }
 
+/* Desktop Nav */
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 3rem;
+    gap: 4rem;
 }
 
 .nav-links a {
@@ -80,11 +87,88 @@ nav {
     text-transform: uppercase;
     font-size: 0.9rem;
     letter-spacing: 1px;
+    display: inline-block;
+    position: relative;
+    padding: 1rem;
+}
+
+.link-text {
+    display: block;
     transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
+.nav-links a:hover .link-text {
     color: var(--accent-color);
+}
+
+/* Mobile Menu Toggle */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    z-index: 102;
+}
+
+.bar {
+    width: 30px;
+    height: 2px;
+    background-color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--bg-color);
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.mobile-nav-links {
+    list-style: none;
+    text-align: center;
+}
+
+.mobile-link {
+    display: block;
+    font-family: var(--font-header);
+    font-size: 3rem;
+    color: var(--text-color);
+    text-decoration: none;
+    margin: 1rem 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: color 0.3s ease;
+}
+
+.mobile-link:hover {
+    color: var(--accent-color);
+    -webkit-text-stroke: 1px var(--accent-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .site-header {
+        padding: 1.5rem 1.5rem;
+    }
 }
 
 /* Hero */
